@@ -91,8 +91,7 @@ Page({
     const members = db.collection('Member');
       members.where({
         team_id:options
-      }).get()=>
-        success:function(res){
+      }).get().then(res=>{
           // console.log(res.data);
           var member_id_list=res.data;
           // console.log(member_id_list);
@@ -103,11 +102,6 @@ Page({
             that.getnickname(member_id_list[b].member_id);
 
           }
-        }
-      }
-      )
-
-
-    },
-    
+        })
+  }
 })
