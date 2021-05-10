@@ -23,6 +23,7 @@ button::after{
 
 
 page {
+  --themeColor:#968bff;
   background: #f6f6f6;
   display: flex;
   flex-direction: column;
