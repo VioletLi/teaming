@@ -1,7 +1,27 @@
+<<<<<<< HEAD
+<!--miniprogram/pages/teamInfo/teamInfo.wxml-->
+<view class="cu-bar bg-white">
+  <view class="action">
+    <text class="cuIcon-title text-blue"></text>我的队伍
+  </view><view class="padding flex flex-direction">
+  <button class="cu-btn line-red shadow" bindtap="filter">{{btn[ind]}}</button>
+</view>
+</view>
+
+<view class="cu-list menu-avatar">
+  <view class="cu-item" wx:for="{{info}}" wx:if="{{!filt || item.isLeader}}" data-item="item">
+      <view class="content" style="left:40rpx">
+        <view class="text-grey">{{item.name}}</view>
+        <view class="text-gray text-cut">{{item.content}}</view>
+      </view>
+      <view class="action" id="{{item.id}}" bindtap="edit">编辑</view>
+    </view>
+=======
 <view class="header">
 <!-- <view class="team_name"> -->
   {{teaminfo.team_name}}
   <!-- </view> -->
+>>>>>>> f844991e0c5ff6d142595d040f134cc6f2846ce9
 </view>
 <Tabs tabs="{{tabs}}" bindtabsItemChange="handleTabsItemChange">
 </Tabs>

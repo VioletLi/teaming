@@ -5,6 +5,13 @@ Page({
    * 页面的初始数据
    */
   data: {
+<<<<<<< HEAD
+    info:[],
+    userid:null,
+    filt:false,
+    btn:['我管理的队伍','所有队伍'],
+    ind:0
+=======
     tabs:[
       {
         id:0,
@@ -20,6 +27,7 @@ Page({
     teaminfo:[],
     teammembers:[]
 
+>>>>>>> f844991e0c5ff6d142595d040f134cc6f2846ce9
   },
 
 
@@ -102,6 +110,25 @@ Page({
             that.getnickname(member_id_list[b].member_id);
 
           }
+<<<<<<< HEAD
         })
   }
+=======
+        }
+      }
+      )
+
+
+<<<<<<< HEAD
+  filter: function(){
+    this.setData({
+      filt:!this.data.filt,
+      ind:1-this.data.ind
+    })
+  }
+=======
+    },
+    
+>>>>>>> f844991e0c5ff6d142595d040f134cc6f2846ce9
+>>>>>>> 8dbccbc71972c005a0b4209f1b385090ea61679e
 })
