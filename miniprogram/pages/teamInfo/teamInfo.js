@@ -6,7 +6,10 @@ Page({
    */
   data: {
     info:[],
-    userid:null
+    userid:null,
+    filt:false,
+    btn:['我管理的队伍','所有队伍'],
+    ind:0
   },
 
   /**
@@ -82,6 +85,9 @@ Page({
   },
 
   filter: function(){
-    //根据条件更改显示的队伍
+    this.setData({
+      filt:!this.data.filt,
+      ind:1-this.data.ind
+    })
   }
 })
