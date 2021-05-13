@@ -16,7 +16,7 @@ exports.main = async (event, context) => {
       member_id: member_id
     }
   }).then(res => {
-    db.collection('Messaage').add({
+    db.collection('Message').add({
       data: {
         type: type,
         announce_time:db.serverDate(),
