@@ -9,7 +9,7 @@ const db = cloud.database()
 exports.main = async (event, context) => {
   // const wxContext = cloud.getWXContext()
   const {type, announcer_id, receive_id, team_id} = event
-  return await db.collection('Messaage').add({
+  return await db.collection('Message').add({
     data: {
       type: type,
       announce_time:db.serverDate(),
