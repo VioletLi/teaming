@@ -1,16 +1,24 @@
 /* components/Tabs.wxss */
 /* components/tabs/Tabs.wxss */
-.tabs .tabs_title {
+.tabs .tabs_single {
   display: flex;
 }
-.tabs .tabs_title .title_item {
-  padding: 15rpx 0;
+.tabs .tabs_single .single_item {
+  /* font-size: 25rpx; */
+  border-radius: 10rpx;
+  margin: 10rpx;
+  border: darkgreen dotted 1rpx;
+  min-width:20% ;
+  max-width: 20%;
+  padding: 15rpx;
   display: flex;
   justify-content: center;
   align-items: center;
   flex: 1;
 }
-.tabs .tabs_title .active {
-  color: var(--themeColor);
+.active{
+  /* font-size: 40rpx; */
+  color:rgb(218, 94, 23);
   border-bottom: 5rpx solid currentColor;
+  background-color: lavender;
 }

@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "TeamShow":"../../components/TeamShow/TeamShow"
+  },
+  "navigationBarTitleText":"搜索"
 }

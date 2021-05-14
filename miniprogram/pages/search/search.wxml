@@ -1,2 +1,7 @@
-<!--pages/search/search.wxml-->
-<text>pages/search/search.wxml</text>
+<view class="search_row">
+  <icon class="search_icon" type="search"></icon>
+  <input value="{{inpValue}}" placeholder="查找队伍" bindinput="handleInput"> </input>
+  <icon class="cancel" type="cancel" bindtap="cancelinput"></icon>
+  <button bindtap="handlesearch">搜索</button>
+</view>
+<TeamShow teaminfo="{{teaminfo}}" searched="{{searched}}" loading="{{loading}}" searchover="{{searchover}}"></TeamShow>

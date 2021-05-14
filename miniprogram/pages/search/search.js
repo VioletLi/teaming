@@ -1,66 +1,95 @@
-// pages/search/search.js
+import { request } from "../../request/index.js";
+import regeneratorRuntime from '../../lib/runtime/runtime';
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
+    teaminfo:[],
+    // 输入框的值
+    inpValue:"",
+    value:"",
+    searched:false,
+    loading:false,
+    searchover:false
+  },
+  TimeId:-1,
+  // 输入框的值改变 就会触发的事件
+  handleInput(e){
+    // 1 获取输入框的值
+    const {value}=e.detail;
+    // 2 检测合法性
+    // if(!value.trim()){
+    //   this.setData({
+    //     teaminfo:[],
+    //     value:value
+    //   })
+    //   // 值不合法
+    //   return;
+    // }
+    this.setData({
+      value: e.detail.value.replace(/\s+/g, '')
+    })
+    
+  },
+  //取消
+  cancelinput(){
+    this.setData({
+      inpValue:""})
+  },
+  //处理搜索
+  handlesearch(){
+    this.setData({searched:true});
+    // 3 准备发送请求获取数据
+    var that=this;
+    clearTimeout(this.TimeId);
+    this.TimeId=setTimeout(() => {
+      var value=that.data.value;
+      console.log(value);
+      this.formSubmit(value);
+    }, 1000);
 
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  //模糊搜索
+  async formSubmit(e) {
+    const db = wx.cloud.database()
+    const team = db.collection('Team');
+    const _ =db.command;
+    var code = e
+    console.log(code);
+    this.setData({loading:true});
+    await team.where(
+      _.or([
+      {
+        team_name: db.RegExp({
+          regexp: '.*' + code+".*",
+          options: 'i',
+        })
+      },
+      {
+        information: db.RegExp({
+          regexp: '.*' + code+".*",
+          options: 'i',
+        })
+      }
+    ]))
+  //   .get({
+  //     success: res => {
+  //       console.log(res)
+  //     },
+  //     fail: err => {
+  //       console.log(err)
+  //     }
+  //   }
+  // )
+     
+    .get().then(res=>{
+      console.log(res);
+      for(var a=0;a<res.data.length;a++)
+        {
+          //日期转换
+          res.data[a].deadline=res.data[a].deadline.toLocaleDateString();
+        }
+      this.setData({teaminfo:res.data})
+    })
+    this.setData({loading:false,searchover:true});
   }
+    
 })
