@@ -1,6 +1,5 @@
 {
   "usingComponents": {
-    "SearchInput":"../../components/SearchInput/SearchInput",
-    "TeamShow":"../../components/TeamShow/TeamShow"
+    "SearchInput":"../../components/SearchInput/SearchInput"
   }
 }

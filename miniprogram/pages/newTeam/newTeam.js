@@ -18,7 +18,9 @@ Page({
     address:'',
     monthDay:[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
     picker:['a', 'b'],
-    index:-1
+    labelList:[],
+    index:-1,
+    canClick: true
   },
 
   /**
@@ -44,6 +46,24 @@ Page({
       date: y + '-' + m + '-' + d,
       curDate: y + '-' + m + '-' + d
     })
+
+    var picker = [];
+    const db = wx.cloud.database()
+    db.collection("Label")
+    .get()
+    .then(res=>{
+      console.log(res)
+      for(var i = 0; i < res.data.length; i++) {
+        picker.push(res.data[i].name);
+      }
+      this.setData({
+        picker: picker,
+        labelList: res.data,
+      })
+      console.log(picker)
+      console.log(res.data)
+    })
+    .catch(console.error)
   },
 
   
@@ -105,6 +125,9 @@ Page({
   },
 
   commit:function(e){
+    this.setData({
+      canClick: false
+    })
     var regNum = new RegExp('(^[1-9][0-9]*$)|^0$','g')
     var that = this
     if(this.data.title === null){
@@ -112,38 +135,47 @@ Page({
         title: '请输入队伍名称',
         icon: 'error'
       })
-    }else if(this.data.needAddress && this.data.address === ''){
-      wx.showToast({
-        title: '请输入详细地址',
-        icon: 'error'
-      })
-    }else if(this.data.amountLimit && regNum.exec(this.data.member) === null){
+    }
+    // else if(this.data.needAddress && this.data.address === ''){
+    //   wx.showToast({
+    //     title: '请输入详细地址',
+    //     icon: 'error'
+    //   })
+    // }
+    else if(this.data.amountLimit && regNum.exec(this.data.member) === null){
       console.log(this.data.member)
       console.log(regNum.exec(this.data.member) )
       wx.showToast({
         title: '请输入有效数字',
         icon: 'error'
       })
-    }else if(this.data.index === -1){
+    }
+    else if(this.data.index === -1){
       wx.showToast({
         title: '请选择队伍分类',
         icon: 'error'
       })
-    }else{
+    }
+    else{
       var that = this
+      var app = getApp();
       const db = wx.cloud.database()
       const team = db.collection("Team")
       var now = new Date()
       team.add({
         data:{
           address:that.data.address,
-          max:that.data.member,
-          label_id:that.data.picker[that.data.index],
+          max:parseInt(that.data.member),
+          label_id:that.data.labelList[that.data.index]._id,
           create_time:now,
-          deadline:that.data.dateLimit ? new Date(that.data.date) : now,
+          deadline:that.data.dateLimit ? new Date(that.data.date) : null,
           information:that.data.content,
           team_name:that.data.title,
-          status:1
+          current_member:1,
+          isOver:false,
+          status:1,
+          leader: app.globalData.userInfo._id,
+          member_list: new Array(app.globalData.userInfo._id)
         },
         success:function(res){
           console.log(res)
@@ -157,12 +189,18 @@ Page({
               data:{
                 team_id:res["_id"],
                 isLeader:true,
-                member_id: res2.result
+                member_id: app.globalData.userInfo._id
               },
               success:function(res2){
                 wx.showToast({
                   title: '提交成功！',
                 })
+                setTimeout(function () {
+                  //要延时执行的代码
+                  wx.switchTab({
+                    url: '../index/index'
+                  });
+                }, 1000) 
               },
               fail:function(res2){
                 team.doc(res["_id"]).remove()
@@ -173,8 +211,6 @@ Page({
               }
             })
           })
-
-          
         },
         fail:function(res){
           wx.showToast({
@@ -185,5 +221,8 @@ Page({
       })
       
     }
+    this.setData({
+      canClick: true
+    })
   }
 })

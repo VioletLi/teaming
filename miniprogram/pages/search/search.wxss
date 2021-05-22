@@ -1,9 +1,6 @@
 /* pages/search/search.wxss */
 
-page {
-  /* background-color: #b43d3d; */
-  /* margin: 20rpx; */
-}
+
 icon{
   display: flex;
   justify-content: center;
@@ -16,7 +13,10 @@ icon{
   height: 80rpx;
   display: flex;
   border-radius: 20rpx;
-  background-color:whitesmoke;
+  background-color:white;
+  
+  justify-content: center;
+  align-items: center;
 
 }
 .search_row .search_icon{

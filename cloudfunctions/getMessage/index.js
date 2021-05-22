@@ -1,6 +1,9 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
-cloud.init()
+cloud.init({
+  // API 调用都保持和云函数当前所在环境一致
+  env: cloud.DYNAMIC_CURRENT_ENV
+})
 const db = cloud.database()
 
 
@@ -21,7 +24,7 @@ exports.main = async (event, context) => {
       pipeline: $.pipeline()
         .match(_.expr($.and([
           $.eq(['$message_id', '$$messageidm']),
-          $.eq(['$receive_id', "17453ede608f58e1067ec12278c8a324"])
+          $.eq(['$receive_id', id])
         ]))).project({
           _id: 1,
           isRead: 1
@@ -44,10 +47,12 @@ exports.main = async (event, context) => {
         date: '$announce_time',
         format: '%Y-%m-%d'
       }),
+      announcer_id: 1,
       team_id: 1,
       receive: 1,
       announcer: 1
     })
+    .limit(100)
     .end()
 
 

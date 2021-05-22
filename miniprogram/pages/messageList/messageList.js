@@ -13,7 +13,8 @@ Page({
       fail: 3,
       leave: 4,
       acceptApply: 5,
-      rejectApply: 6
+      rejectApply: 6,
+      removed: 7
     },
     messageText: {
       application: "申请加入队伍",
@@ -21,7 +22,8 @@ Page({
       fail: "队伍组建失败",
       leave: "离开了队伍",
       acceptApply: "同意你加入队伍",
-      rejectApply: "拒绝了你的申请"
+      rejectApply: "拒绝了你的申请",
+      removed: "您被移除队伍"
     },
     showApply: false,
     showComplete: false,
@@ -29,6 +31,7 @@ Page({
     showLeave: false,
     showAccept: false,
     showReject: false,
+    showRemoved: false,
     currentIndex: -1,
     currentTeam: ""
   },
@@ -37,6 +40,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var app = getApp();
+    this.setData({
+      id: app.globalData.userInfo._id
+    })
     this.getMessage()
   },
 
@@ -157,6 +164,12 @@ Page({
           showLeave: isShow
         })
         break
+      
+        case this.data.messageType.removed:
+          this.setData({
+            showRemoved: isShow
+          })
+          break
     }
   },
 
@@ -187,6 +200,7 @@ Page({
     // 处理好后要弹出通知
 
     const that = this
+
     wx.cloud.callFunction({
       name: 'addMember',
       data: {
@@ -196,6 +210,7 @@ Page({
         type: that.data.messageType.acceptApply
       },
       success: function (res) {
+        console.log("add")
         console.log(res)
         // 将信息变为已处理
         wx.showModal({
@@ -203,8 +218,8 @@ Page({
           content: '您已同意对方的申请',
           showCancel: false
         })
-        that.setRead(this.data.currentIndex)
-        that.showMessage(this.data.messageType.application, false)
+        that.setRead(that.data.currentIndex)
+        that.showMessage(that.data.messageType.application, false)
       },
       fail: function (err) {
         console.log(err)
@@ -216,6 +231,7 @@ Page({
   rejectApply: function () {
     // 拒绝申请只需要发送信息即可，同时要将信息变更为已处理
     const that = this
+
     wx.cloud.callFunction({
       name: 'sendMessage',
       data: {
@@ -232,8 +248,8 @@ Page({
           content: '您已拒绝对方的申请',
           showCancel: false
         })
-        that.setRead(this.data.currentIndex)
-        that.showMessage(this.data.messageType.application, false)
+        that.setRead(that.data.currentIndex)
+        that.showMessage(that.data.messageType.application, false)
       },
       fail: function (err) {
         console.log(err)
@@ -289,7 +305,7 @@ Page({
         }
       }
       const db = wx.cloud.database()
-      db.collection('Message').doc(this.data.messageList[index]._id).remove()
+      // db.collection('Message').doc(this.data.messageList[index]._id).remove()
       db.collection('Receive').doc(this.data.messageList[index].receive[0]._id).remove()
       this.getMessage()
   },

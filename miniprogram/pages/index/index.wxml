@@ -2,4 +2,48 @@
 <!-- <wxs module="tutil" src="../../wxs/dateToString.wxs"></wxs> -->
 <SearchInput></SearchInput>
 <!-- 整个容器 -->
-<TeamShow loading="{{loading}}" searchover="true" searched="true" teaminfo="{{teaminfo}}" homepage="true"></TeamShow>
+<view class="index_container"> 
+    <!-- 显示的队伍列表 -->
+    <scroll-view scroll-y class="index_list">
+        <!-- 单个队伍框-->
+        <navigator class="single_team padding-xl radius shadow-warp bg-white margin-top"
+        wx:for="{{teaminfo}}"
+        url="/pages/teamInfo/teamInfo?team_id={{item._id}}"
+>
+            <!-- 上：队伍名   截止时间 -->
+            <view class="single_upper">
+                <view class="teamname">
+                    {{item.team_name}} 
+                    <view wx:for="{{tabs}}" wx:for-item="tab">
+                        <view class="cu-tag round bg-blue light" style="background-color:#f0e3ff;color:#d89cf6"style="background-color:#f0e3ff;color:#d89cf6" wx:if="{{tab._id == item.label_id}}">{{tab.name}}</view>
+                    </view>
+                </view>
+                
+                <!-- <view class="isleader"></view> -->
+                <view class="deadline">
+                    <text style="position: absolute;right: 0;" wx:if="{{item.deadline != null}}">{{item.deadline}}</text>
+                    <text style="position: absolute;right: 0;" wx:else>无截止日期</text>
+                </view>
+            </view>
+        
+
+            <!-- 一条虚线 -->
+            <!-- <view class="line">
+            </view> -->
+            <view class="line"></view>
+            <!-- 下：信息  当前人数/人数上限 -->
+            <view class="single_down">
+                <rich-text class="info" wx:if="{{item.information}}">{{item.information}}</rich-text>
+                <rich-text class="info" wx:else>该队伍无详细信息</rich-text>
+                <view class="peoplenumber" wx:if="{{item.max > 0}}">
+                    <text style="position: absolute;right: 0;">{{item.current_member}}/{{item.max}}</text>
+                </view>
+                <view class="peoplenumber" wx:else>
+                    <text style="position: absolute;right: 0;">{{item.current_member}}/不限</text>
+                </view>
+            </view>
+        </navigator>
+
+
+    </scroll-view>
+</view>

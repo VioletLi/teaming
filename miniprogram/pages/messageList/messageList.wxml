@@ -28,7 +28,7 @@
             <view class="mytext">{{messageText.fail}}</view>
           </view>
           <view class="text-gray text-sm" wx:else="{{item.type==messageType.leave}}">
-            <view class="mytext">{{messageText.leavve}}</view>
+            <view class="mytext">{{messageText.leave}}</view>
           </view>
         </view>
       </view>
@@ -47,7 +47,7 @@
     </view>
   </view>
 
-  <view class="cu-modal {{showApply?'show':''}}">
+  <!-- <view class="cu-modal {{showApply?'show':''}}">
     <view class="cu-dialog">
       <view class="cu-bar bg-white justify-end">
         <view class="content">申请信息</view>
@@ -59,12 +59,30 @@
         {{messageList[currentIndex].announcer[0].nickname}}申请加入你的队伍：{{currentTeam}}
       </view>
       <view class="cu-bar bg-white justify-end">
-        <view class="action" wx:if="!messageList[currentIndex].receive[0].isRead">
-          <!-- 仅在未处理时才显示同意和拒绝的信息 -->
+        <view class="action" wx:if="{{!messageList[currentIndex].receive[0].isRead}}">
           <button class="cu-btn line-green text-green" bindtap="acceptApply">同意</button>
           <button class="cu-btn bg-green margin-left" bindtap="rejectApply">拒绝</button>
         </view>
-        <!-- 看后续要不要显示已同意或者拒绝 -->
+      </view>
+    </view>
+  </view> -->
+
+  <view class="cu-modal {{showApply?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">申请信息</view>
+        <view class="action" bindtap="show" data-type="{{messageType.application}}" data-isshow="{{false}}">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl">
+        {{messageList[currentIndex].announcer[0].nickname}}申请加入你的队伍：{{currentTeam}}
+      </view>
+      <view class="cu-bar bg-white" wx:if="{{!messageList[currentIndex].receive[0].isRead}}">
+        <!-- <view class="action"> -->
+          <view class="action margin-0 flex-sub text-green solid-left" bindtap="acceptApply">同意</view>
+          <view class="action margin-0 flex-sub  solid-left" bindtap="rejectApply">拒绝</view>
+        <!-- </view> -->
       </view>
     </view>
   </view>
@@ -112,20 +130,6 @@
     </view>
   </view>
 
-  <view class="cu-modal {{showFail?'show':''}}">
-    <view class="cu-dialog">
-      <view class="cu-bar bg-white justify-end">
-        <view class="content">组队失败信息</view>
-        <view class="action" bindtap="show" data-type="{{messageType.fail}}" data-isshow="{{false}}">
-          <text class="cuIcon-close text-red"></text>
-        </view>
-      </view>
-      <view class="padding-xl">
-        {{messageList[currentIndex].announcer[0].nickname}}离开了您的队伍： {{currentTeam}}
-      </view>
-    </view>
-  </view>
-
   <view class="cu-modal {{showLeave?'show':''}}">
     <view class="cu-dialog">
       <view class="cu-bar bg-white justify-end">
@@ -135,7 +139,35 @@
         </view>
       </view>
       <view class="padding-xl">
-        您的队伍： {{currentTeam}} 组队完成
+        {{messageList[currentIndex].announcer[0].nickname}}离开了您的队伍： {{currentTeam}}
+      </view>
+    </view>
+  </view>
+
+  <view class="cu-modal {{showFail?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">组队失败信息</view>
+        <view class="action" bindtap="show" data-type="{{messageType.fail}}" data-isshow="{{false}}">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl">
+        您的队伍： {{currentTeam}} 组队失败
+      </view>
+    </view>
+  </view>
+
+  <view class="cu-modal {{showRemoved?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">组队失败信息</view>
+        <view class="action" bindtap="show" data-type="{{messageType.removed}}" data-isshow="{{false}}">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl">
+        您被队伍： {{currentTeam}} 移除
       </view>
     </view>
   </view>

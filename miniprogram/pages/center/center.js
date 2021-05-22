@@ -6,12 +6,19 @@ Page({
    */
   data: {
 
+    userInfo: {},
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var app = getApp();
+    this.setData({
+      userInfo: app.globalData.userInfo
+    })
+
 
   },
 
@@ -26,6 +33,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    var app = getApp();
+    this.setData({
+      userInfo: app.globalData.userInfo
+    })
     if(typeof this.getTabBar === 'function' && this.getTabBar()){
       this.getTabBar().setData({
         selected:2
@@ -82,14 +93,14 @@ Page({
 
   goToChat: function(){
     wx.navigateTo({
-      url: '../chat/chat'
+      url: '../messageList/messageList'
     })
   },
 
   goToTeamInfo: function(){
     console.log(1);
     wx.navigateTo({
-      url: '../teamInfo/teamInfo'
+      url: '../myTeams/myTeams'
     })
   }
 })

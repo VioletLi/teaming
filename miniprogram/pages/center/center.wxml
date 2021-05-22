@@ -2,12 +2,12 @@
 <view class="container">
   <view class="cu-bar bg-white solid-bottom margin-top user-info">
     <view class="padding avator">
-      <view class="cu-avatar xl round" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg);"></view>
+      <view class="cu-avatar xl round" style="background-image:url({{userInfo.avatar}});"></view>
     </view>
     <view class="padding">
       <view class="flex-sub text-center">
         <view class="text-lg padding">
-          <text class="text-black">ColorUI组件库</text>
+          <text class="text-black">{{userInfo.nickname}}</text>
         </view>
       </view>
     </view>
@@ -15,25 +15,25 @@
   <view class="cu-list menu menu-list">
     <view class="cu-item {{menuArrow?'arrow':''}}" bindtap="goToTeamInfo">
       <view class="content">
-        <text class="cuIcon-activity text-grey"></text>
+        <text class="cuIcon-activity text-grey" style="color:#d291bc"></text>
         <text class="text-grey">我的队伍</text>
       </view>
     </view>
     <view class="cu-item {{menuArrow?'arrow':''}}" bindtap="goToChat">
       <view class="content">
-        <text class="cuIcon-markfill text-grey"></text>
+        <text class="cuIcon-markfill text-grey"  style="color:#d291bc"></text>
         <text class="text-grey">我的消息</text>
       </view>
     </view>
     <view class="cu-item {{menuArrow?'arrow':''}}" bindtap="goToSettings">
       <view class="content">
-        <text class="cuIcon-repairfill text-grey"></text>
+        <text class="cuIcon-repairfill text-grey" style="color:#d291bc"></text>
         <text class="text-grey">设置</text>
       </view>
     </view>
     <view class="cu-item {{menuArrow?'arrow':''}}" bindtap="goToAbout">
       <view class="content">
-        <text class="cuIcon-questionfill text-grey"></text>
+        <text class="cuIcon-questionfill text-grey" style="color:#d291bc"></text>
         <text class="text-grey">关于我们</text>
       </view>
     </view>

@@ -1,0 +1,137 @@
+<!-- <view class="header"> -->
+<!-- <view class="team_name"> -->
+  <!-- {{teaminfo.team_name}} -->
+  <!-- </view> -->
+<!-- </view> -->
+<infoTabs tabs="{{tabs}}" bindtabsItemChange="handleTabsItemChange">
+</infoTabs>
+<view class="content">
+<block wx:if="{{tabs[0].isActive}}">
+    <view class="first_tab">
+      <!-- 标签墙 -->
+      <!-- <scroll-view  scroll-x class="tags"><navigator>{{teaminfo.label_id}}</navigator></scroll-view> -->
+      <!-- <view class="teamname">{{teaminfo.team_name}}</view> -->
+      <!-- 存储的标签支持 点击标签 出现相关标签的搜索页面？+ 标签如何定义，可以确定划分方法 -->
+      <!-- <scroll-view  scroll-x class="tags" wx:for="{{teaminfo.label_id}}">
+        <navigator > class="single_tag">{{item}}</navigator>
+      </scroll-view> -->
+      <view class="status">队伍状态：
+        <view wx:if="{{teaminfo.isOver}}">队伍已完成！</view>
+        <view wx:else>队伍组建中...</view>
+      </view>
+      
+      <!-- <view class="label_id">{{teaminfo.label_id}}</view> -->
+      <view class="max" wx:if="{{teaminfo.max > 0}}">组队进度：{{teaminfo.current_member}}/{{teaminfo.max}}</view>
+      <view class="max" wx:else>组队进度：{{teaminfo.current_member}}/不限</view>
+      <view class="create_time">创建时间：{{teaminfo.create_time}}</view>
+      <view class="deadline">截止时间：{{teaminfo.deadline}}</view>
+      <view class="address" wx:if="{{teaminfo.address}}">队伍地址：{{teaminfo.address}}</view>
+      <view class="address" wx:else>队伍地址：无</view>
+      <view class="info">队伍介绍: 
+      <view class="cu-tag round bg-blue light" style="background-color:#f0e3ff;color:#d89cf6"  wx:if="{{teamlabel}}">{{teamlabel.name}}</view>
+        <view class="info_content">
+           <rich-text class="info_content">{{teaminfo.information}}</rich-text>
+        </view>
+       
+        
+      </view>
+    </view>
+</block>
+
+
+
+<block wx:elif="{{tabs[1].isActive}}" class="sec_tab">
+
+  <!--miniprogram/pages/memberList.wxml-->
+<!-- <view class="solids-bottom padding-xs flex align-center">
+    <view class="flex-sub text-center">
+      <view class="solid-bottom text-xl padding">
+        <text class="text-black text-bold">{{team.team_name}}</text>
+      </view>
+    </view>
+  </view> -->
+ <view wx:for="{{memberList}}" wx:if="{{item.isDelete != true}}" class="cu-list menu {{menuBorder?'sm-border':''}} {{menuCard?'card-menu margin-top':''}}">
+    <view class="cu-item {{menuArrow?'arrow':''}} ">
+      <view class="cu-bar padding ">
+        <view class="cu-avatar round" style="background-image:url({{item.info[0].avatar}});"></view>
+        <text class="text-black margin-left member-name">{{item.info[0].nickname}}</text>
+        <!-- <button class="cu-btn round">默认</button> -->
+      </view>
+      <view class="action item-right flex-wrp-row" wx:if="{{item.isLeader == false && isManage == true && teaminfo.isOver == false}}">
+        <button style="width:120rpx" class="cu-btn round" bindtap="showModal" data-target="DialogModal1"  data-idx="{{index}}">移除</button>
+      </view>
+      <view class="action item-right flex-wrp-row" wx:elif="{{item.member_id == userID && isManage == false && item.isLeader == false && teaminfo.isOver == false}}">
+        <button style="width:120rpx" class="cu-btn round" bindtap="showModal" data-target="DialogModal2"  data-idx="{{index}}">退出</button>
+      </view>
+    </view>
+  </view>
+
+
+<view class="cu-modal {{modalName=='DialogModal1'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">移除队员</view>
+    </view>
+    <view class="padding-xl">
+      {{message}}
+    </view>
+    <view class="cu-bar bg-white">
+      <view class="action margin-0 flex-sub text-green solid-left" bindtap="hideModal" data-res="0">取消</view>
+      <view class="action margin-0 flex-sub  solid-left" bindtap="hideModal" data-res="1" data-op="remove">确定</view>
+    </view>
+  </view>
+</view>
+
+<view class="cu-modal {{modalName=='DialogModal2'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">退出队伍</view>
+    </view>
+    <view class="padding-xl">
+      {{message}}
+    </view>
+    <view class="cu-bar bg-white">
+      <view class="action margin-0 flex-sub text-green solid-left" bindtap="hideModal" data-res="0">取消</view>
+      <view class="action margin-0 flex-sub  solid-left" bindtap="hideModal" data-res="1" data-op="quit">确定</view>
+    </view>
+  </view>
+</view>
+
+
+<view class="cu-modal {{modalName=='Modal1'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">移除队员</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl">
+      移除队员成功。
+    </view>
+  </view>
+</view>
+<view class="cu-modal {{modalName=='Modal2'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">退出队伍</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl">
+      退出队伍成功。
+    </view>
+  </view>
+</view>
+
+<!-- <button style='position:fixed;width:100%;bottom:0' bindtap="joinTeam">加入队伍</button> -->
+
+
+  <!-- <view class="single_member" wx:for="{{teammembers}}">{{item.nickname}}</view> -->
+</block>
+
+<button style='position:fixed;width:100%;bottom:0;color:#d291bc' wx:if="{{inTeam == false}}" bindtap="joinTeam" disable='{{canClick}}'>加入队伍</button>
+<button style='position:fixed;width:100%;bottom:0;color:#d291bc' wx:elif="{{isManage == true && teaminfo.isOver == false}}" bindtap="finishTeam">提前结束</button>
+
+</view>

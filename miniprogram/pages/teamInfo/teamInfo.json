@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "infoTabs":"../../components/infoTabs/infoTabs"
+  },
+  "navigationBarTitleText": "队伍"
+}

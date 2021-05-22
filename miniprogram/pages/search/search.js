@@ -8,7 +8,13 @@ Page({
     value:"",
     searched:false,
     loading:false,
-    searchover:false
+    searchover:false,
+
+    tabs:[{
+      _id: "",
+      name: "全部",
+      isActive: true
+    }]
   },
   TimeId:-1,
   // 输入框的值改变 就会触发的事件
@@ -41,6 +47,7 @@ Page({
     var that=this;
     clearTimeout(this.TimeId);
     this.TimeId=setTimeout(() => {
+      console.log(that.data.value)
       var value=that.data.value;
       console.log(value);
       this.formSubmit(value);
@@ -55,41 +62,83 @@ Page({
     var code = e
     console.log(code);
     this.setData({loading:true});
-    await team.where(
-      _.or([
-      {
-        team_name: db.RegExp({
-          regexp: '.*' + code+".*",
-          options: 'i',
-        })
-      },
-      {
-        information: db.RegExp({
-          regexp: '.*' + code+".*",
-          options: 'i',
-        })
-      }
-    ]))
-  //   .get({
-  //     success: res => {
-  //       console.log(res)
-  //     },
-  //     fail: err => {
-  //       console.log(err)
-  //     }
-  //   }
-  // )
-     
-    .get().then(res=>{
-      console.log(res);
-      for(var a=0;a<res.data.length;a++)
+    if (code == "") {
+      await team.where({
+        isOver: false
+      })
+      .get().then(res=>{
+        console.log(res);
+        for(var a=0;a<res.data.length;a++)
+          {
+            //日期转换
+            if(res.data[a].deadline != null)
+              res.data[a].deadline=res.data[a].deadline.toLocaleDateString();
+          }
+        this.setData({teaminfo:res.data})
+      })
+    }
+    else {
+      await team.where(
+        _.or([
         {
-          //日期转换
-          res.data[a].deadline=res.data[a].deadline.toLocaleDateString();
+          team_name: db.RegExp({
+            regexp: '.*' + code+".*",
+            options: 'i',
+          }),
+          isOver: false
+        },
+        {
+          information: db.RegExp({
+            regexp: '.*' + code+".*",
+            options: 'i',
+          }),
+          isOver: false
         }
-      this.setData({teaminfo:res.data})
-    })
+      ]))
+      .get().then(res=>{
+        console.log(res);
+        for(var a=0;a<res.data.length;a++)
+          {
+            //日期转换
+            if(res.data[a].deadline != null)
+              res.data[a].deadline=res.data[a].deadline.toLocaleDateString();
+          }
+        this.setData({teaminfo:res.data})
+      })
+    }
+    
     this.setData({loading:false,searchover:true});
+  },
+
+  onLoad: function(e) {
+    const db = wx.cloud.database()
+    db.collection("Label").aggregate()
+    .addFields({
+      isActive: false
+    })
+    .end()
+    .then(res=>{
+      this.setData({
+        tabs: this.data.tabs.concat(res.list)
+      })
+      console.log(this.data.tabs)
+      db.collection('Team').where({
+        isOver: false
+      })
+      .get().then(res=>{
+        console.log(res);
+        for(var a=0;a<res.data.length;a++)
+          {
+            //日期转换
+            if(res.data[a].deadline != null)
+              res.data[a].deadline=res.data[a].deadline.toLocaleDateString();
+          }
+        this.setData({teaminfo:res.data})
+      })
+    })
+    .catch(console.error)
+
+    
   }
     
 })

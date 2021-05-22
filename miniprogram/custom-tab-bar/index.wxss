@@ -5,8 +5,8 @@
   background: #fff;
 }
 .active{
-  color: chartreuse;
+  color: #d291bc;
 }
 .default{
-  color: black;
+  color: grey;
 }

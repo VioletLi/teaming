@@ -15,6 +15,10 @@ Component({
       }
 
     },
+    tabs:{
+      type:Array,
+      value:[],
+    },
     searched:{
       type:Boolean,
       value:false
@@ -44,52 +48,52 @@ Component({
 // 4. 购物
 // 5. 娱乐
 // 6. 其它
-    tabs:[{
-      id: 0,
-      value: "全部",
-      isActive: true
-    },
-    {
-      id: 1,
-      value: "学习",
-      isActive: false
-    },
-    {
-      id: 2,
-      value: "锻炼",
-      isActive: false
-    },
-    {
-      id: 3,
-      value: "吃喝",
-      isActive: false
-    },
-    {
-      id: 4,
-      value: "购物",
-      isActive: false
-    },
-    {
-      id: 5,
-      value: "娱乐",
-      isActive: false
-    },
-    {
-      id: 6,
-      value: "其它",
-      isActive: false
-    },
-    {
-      id: 7,
-      value: "其它2",
-      isActive: false
-    },
-    {
-      id: 8,
-      value: "其它3",
-      isActive: false
-    }
-    ],
+    // tabs:[{
+    //   id: 0,
+    //   name: "全部",
+    //   isActive: true
+    // },
+    // {
+    //   id: 1,
+    //   name: "学习",
+    //   isActive: false
+    // },
+    // {
+    //   id: 2,
+    //   name: "锻炼",
+    //   isActive: false
+    // },
+    // {
+    //   id: 3,
+    //   name: "吃喝",
+    //   isActive: false
+    // },
+    // {
+    //   id: 4,
+    //   name: "购物",
+    //   isActive: false
+    // },
+    // {
+    //   id: 5,
+    //   name: "娱乐",
+    //   isActive: false
+    // },
+    // {
+    //   id: 6,
+    //   name: "其它",
+    //   isActive: false
+    // },
+    // {
+    //   id: 7,
+    //   name: "其它2",
+    //   isActive: false
+    // },
+    // {
+    //   id: 8,
+    //   name: "其它3",
+    //   isActive: false
+    // }
+    // ],
     teamtabinfo:[],
     allteaminfo:[]
 
@@ -124,7 +128,11 @@ Component({
       else{
         this.setData({loading:true});
         for(var a=0;a<allteaminfo.length;a++){
-          if (allteaminfo[a].label_id==index-1){
+          // if (allteaminfo[a].label_id==index-1){
+          //   console.log(allteaminfo[a]);
+          //   teamtabinfo.push(allteaminfo[a]);
+          // }
+          if (allteaminfo[a].label_id==this.data.tabs[index]._id){
             console.log(allteaminfo[a]);
             teamtabinfo.push(allteaminfo[a]);
           }
@@ -142,7 +150,7 @@ Component({
       this.setData({
         tabs
       })
-    }
+    } 
   },
 
 

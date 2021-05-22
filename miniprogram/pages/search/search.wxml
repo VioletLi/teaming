@@ -1,7 +1,9 @@
-<view class="search_row">
-  <icon class="search_icon" type="search"></icon>
+<view class="search_row" style="background-color:white">
+  <icon size="20" class="search_icon" type="search"></icon>
   <input value="{{inpValue}}" placeholder="查找队伍" bindinput="handleInput"> </input>
-  <icon class="cancel" type="cancel" bindtap="cancelinput"></icon>
+  <!-- <icon class="cancel" type="cancel" bindtap="cancelinput"></icon> -->
+  <text class="cuIcon-roundclose text-xxl text-gray bg-white"  bindtap="cancelinput"></text>
   <button bindtap="handlesearch">搜索</button>
 </view>
-<TeamShow teaminfo="{{teaminfo}}" searched="{{searched}}" loading="{{loading}}" searchover="{{searchover}}"></TeamShow>
+
+<TeamShow tabs="{{tabs}}" teaminfo="{{teaminfo}}" searched="{{searched}}" loading="{{loading}}" searchover="{{searchover}}"></TeamShow>

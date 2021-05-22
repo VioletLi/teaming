@@ -1,6 +1,10 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/myTeams/myTeams",
+    "pages/memberList/memberList",
+    "pages/messageList/messageList",
+    "pages/myTeam/myTeam",
     "pages/userConsole/userConsole",
     "pages/storageConsole/storageConsole",
     "pages/databaseGuide/databaseGuide",
@@ -14,9 +18,11 @@
     "pages/im/im",
     "pages/im/room/room",
     "pages/center/center",
+    "pages/teamInfo/teamInfo",
     "pages/chat/chat",
     "pages/about/about",
     "pages/settings/settings",
+    "pages/search/search",
     "pages/newTeam/newTeam",
     "pages/editPage/editPage"
   ],
@@ -24,7 +30,7 @@
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "云开发 QuickStart",
+    "navigationBarTitleText": "Teaming",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {

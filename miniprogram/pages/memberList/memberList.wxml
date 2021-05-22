@@ -1,0 +1,84 @@
+<!--miniprogram/pages/memberList.wxml-->
+<view class="solids-bottom padding-xs flex align-center">
+    <view class="flex-sub text-center">
+      <view class="solid-bottom text-xl padding">
+        <text class="text-black text-bold">{{team.team_name}}</text>
+      </view>
+    </view>
+  </view>
+ <view wx:for="{{memberList}}" wx:if="{{item.isDelete != true}}" class="cu-list menu {{menuBorder?'sm-border':''}} {{menuCard?'card-menu margin-top':''}}">
+    <view class="cu-item {{menuArrow?'arrow':''}} ">
+      <view class="cu-bar padding ">
+        <view class="cu-avatar round" style="background-image:url({{item.info[0].avatar}});"></view>
+        <text class="text-black margin-left member-name">{{item.info[0].nickname}}</text>
+        <!-- <button class="cu-btn round">默认</button> -->
+      </view>
+      <view class="action item-right flex-wrp-row" wx:if="{{item.isLeader == false && isManage == true}}">
+        <button style="width:120rpx" class="cu-btn round" bindtap="showModal" data-target="DialogModal1"  data-idx="{{index}}">移除</button>
+      </view>
+      <view class="action item-right flex-wrp-row" wx:elif="{{item.member_id == userID && isManage == false && item.isLeader == false}}">
+        <button style="width:120rpx" class="cu-btn round" bindtap="showModal" data-target="DialogModal2"  data-idx="{{index}}">退出</button>
+      </view>
+    </view>
+  </view>
+
+
+<view class="cu-modal {{modalName=='DialogModal1'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">移除队员</view>
+    </view>
+    <view class="padding-xl">
+      {{message}}
+    </view>
+    <view class="cu-bar bg-white">
+      <view class="action margin-0 flex-sub text-green solid-left" bindtap="hideModal" data-res="0">取消</view>
+      <view class="action margin-0 flex-sub  solid-left" bindtap="hideModal" data-res="1" data-op="remove">确定</view>
+    </view>
+  </view>
+</view>
+
+<view class="cu-modal {{modalName=='DialogModal2'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">退出队伍</view>
+    </view>
+    <view class="padding-xl">
+      {{message}}
+    </view>
+    <view class="cu-bar bg-white">
+      <view class="action margin-0 flex-sub text-green solid-left" bindtap="hideModal" data-res="0">取消</view>
+      <view class="action margin-0 flex-sub  solid-left" bindtap="hideModal" data-res="1" data-op="quit">确定</view>
+    </view>
+  </view>
+</view> 
+
+
+<view class="cu-modal {{modalName=='Modal1'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">移除队员</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl">
+      移除队员成功。
+    </view>
+  </view>
+</view>
+<view class="cu-modal {{modalName=='Modal2'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">退出队伍</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl">
+      退出队伍成功。
+    </view>
+  </view>
+</view>
+
+<!-- <button style='position:fixed;width:100%;bottom:0' bindtap="joinTeam">加入队伍</button> -->

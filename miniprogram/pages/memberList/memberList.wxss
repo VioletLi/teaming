@@ -1,0 +1,35 @@
+/* miniprogram/pages/memberList.wxss */
+.flex-wrp-row {
+  display: flex;
+  flex-direction: row;
+}
+ 
+.item {
+  padding: 20rpx;
+  position: relative;
+}
+ 
+.item-left {
+   flex: 1; /* 重要 */
+   align-items:center;
+}
+ 
+.item-right {
+  position: relative;
+  align-items:center;
+}
+
+.member-name {
+  font-size: 30 rpx;
+  word-break: break-all;/*允许在单词内换行*/
+  text-align: left;
+  color: #323232;
+  line-height: 45 rpx;
+  text-overflow: -o-ellipsis-lastline;/*css3中webkit内核提供的一个方法类似 ellipsis*/
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;/*自适应盒子*/
+  -webkit-line-clamp: 1;/*此处为1行,如果是两行就改成2*/
+  -webkit-box-orient: vertical;
+  width: 130px;
+  }
