@@ -28,7 +28,7 @@
   padding: 10rpx;
   display: flex;
   /* background-color: rgb(241, 241, 241); */
-  border: 1px dashed #F00;
+  border: 1px dashed rgb(231, 146, 146);
   align-items: center;
   border: 2px solid #ffffff;
   border-radius: 5px;

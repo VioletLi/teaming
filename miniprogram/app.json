@@ -27,11 +27,12 @@
     "pages/editPage/editPage"
   ],
   "window": {
-    "backgroundColor": "#F6F6F6",
+    "backgroundColor": "#6D63C4",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarBackgroundColor": "#6D63D4",
     "navigationBarTitleText": "Teaming",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white",
+    "enablePullDownRefresh": true
   },
   "tabBar": {
     "custom": true,

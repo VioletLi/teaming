@@ -1,8 +1,4 @@
-<!-- <view class="header"> -->
-<!-- <view class="team_name"> -->
-  <!-- {{teaminfo.team_name}} -->
-  <!-- </view> -->
-<!-- </view> -->
+
 <infoTabs tabs="{{tabs}}" bindtabsItemChange="handleTabsItemChange">
 </infoTabs>
 <view class="content">

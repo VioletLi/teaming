@@ -2,7 +2,7 @@
 /* components/searchInput/searchInput.wxss */
 .search_input{
   height: 90rpx;
-  padding:10rpx 20rpx;
+  padding:20rpx 10rpx 0 ;
   background-color:rgb(241, 241, 241);
   /* background-color: var(--themeColor); */
 }

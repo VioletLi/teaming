@@ -1,12 +1,13 @@
 <!-- index.wxml -->
-<!-- <wxs module="tutil" src="../../wxs/dateToString.wxs"></wxs> -->
 <SearchInput></SearchInput>
 <!-- 整个容器 -->
 <view class="index_container"> 
     <!-- 显示的队伍列表 -->
     <scroll-view scroll-y class="index_list">
         <!-- 单个队伍框-->
-        <navigator class="single_team padding-xl radius shadow-warp bg-white margin-top"
+
+        <!-- <navigator class="single_team padding-xl radius shadow-warp bg-white margin-top"  -->
+        <navigator class="single_team bubble" 
         wx:for="{{teaminfo}}"
         url="/pages/teamInfo/teamInfo?team_id={{item._id}}"
 >
