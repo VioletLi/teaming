@@ -47,9 +47,7 @@ Page({
     var that=this;
     clearTimeout(this.TimeId);
     this.TimeId=setTimeout(() => {
-      console.log(that.data.value)
       var value=that.data.value;
-      console.log(value);
       this.formSubmit(value);
     }, 1000);
 
@@ -60,14 +58,12 @@ Page({
     const team = db.collection('Team');
     const _ =db.command;
     var code = e
-    console.log(code);
     this.setData({loading:true});
     if (code == "") {
       await team.where({
         isOver: false
       })
       .get().then(res=>{
-        console.log(res);
         for(var a=0;a<res.data.length;a++)
           {
             //日期转换
@@ -96,7 +92,6 @@ Page({
         }
       ]))
       .get().then(res=>{
-        console.log(res);
         for(var a=0;a<res.data.length;a++)
           {
             //日期转换
@@ -121,12 +116,10 @@ Page({
       this.setData({
         tabs: this.data.tabs.concat(res.list)
       })
-      console.log(this.data.tabs)
       db.collection('Team').where({
         isOver: false
       })
       .get().then(res=>{
-        console.log(res);
         for(var a=0;a<res.data.length;a++)
           {
             //日期转换

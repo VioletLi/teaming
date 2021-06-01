@@ -1,7 +1,7 @@
 <!-- index.wxml -->
 <SearchInput></SearchInput>
 <!-- 整个容器 -->
-<view class="index_container"> 
+<view class="index_container" style="padding-bottom:80rpx"> 
     <!-- 显示的队伍列表 -->
     <scroll-view scroll-y class="index_list">
         <!-- 单个队伍框-->

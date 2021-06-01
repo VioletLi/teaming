@@ -21,12 +21,11 @@ App({
 
       wx.cloud.callFunction({
         // 云函数名称
-        name: 'login',
+        name: 'login',  //获取当前用户的openID等信息，用于数据库查询用户信息
         // 传给云函数的参数
         data: {
         },
         success: function(res) {
-          console.log(res)
           const db = wx.cloud.database()
           db.collection("Person").where({
             _openid: res.result
@@ -40,11 +39,9 @@ App({
                 showCancel:false,
                 success (res) {
                   if (res.confirm) {
-                    console.log('用户点击确定')
                     wx.getUserInfo({
                       lang: "zh-CN",
                       success: function(res) {
-                        console.log(res)
                         db.collection("Person").add({
                           data:{
                             avatar: res.userInfo.avatarUrl,

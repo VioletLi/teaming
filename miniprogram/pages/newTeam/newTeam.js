@@ -52,7 +52,6 @@ Page({
     db.collection("Label")
     .get()
     .then(res=>{
-      console.log(res)
       for(var i = 0; i < res.data.length; i++) {
         picker.push(res.data[i].name);
       }
@@ -60,8 +59,6 @@ Page({
         picker: picker,
         labelList: res.data,
       })
-      console.log(picker)
-      console.log(res.data)
     })
     .catch(console.error)
   },
@@ -143,8 +140,6 @@ Page({
     //   })
     // }
     else if(this.data.amountLimit && regNum.exec(this.data.member) === null){
-      console.log(this.data.member)
-      console.log(regNum.exec(this.data.member) )
       wx.showToast({
         title: '请输入有效数字',
         icon: 'error'
@@ -178,7 +173,6 @@ Page({
           member_list: new Array(app.globalData.userInfo._id)
         },
         success:function(res){
-          console.log(res)
           wx.cloud.callFunction({
             name:'login',
             data:{
@@ -194,6 +188,23 @@ Page({
               success:function(res2){
                 wx.showToast({
                   title: '提交成功！',
+                })
+                
+                that.setData({
+                  needAddress:false,
+                  amountLimit:false,
+                  dateLimit:false,
+                  date:null,
+                  userid:null,
+                  title:"",
+                  member:-1,
+                  content:'',
+                  address:'',
+                  monthDay:[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+                  picker:['a', 'b'],
+                  labelList:[],
+                  index:-1,
+                  canClick: true
                 })
                 setTimeout(function () {
                   //要延时执行的代码

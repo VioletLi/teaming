@@ -4,15 +4,6 @@
 		<view class="title">队伍名称</view>
 		<input placeholder="不超过10个字" maxlength="10" id='title' bindinput="fill"></input>
   </view>
-  <!-- <view class="cu-form-group">
-		<view class="title">是否需要详细地址</view>
-		<switch bindchange="switchAddress" checked="{{needAddress}}"></switch>
-  </view>
-  <view class="cu-form-group" wx:if="{{needAddress}}">
-		<view class="title">组队地址</view>
-		<input placeholder="输入框带个图标" id='address' bindinput="fill"></input>
-		<text class="cuIcon-locationfill text-orange"></text>
-  </view> -->
 
   <view class="cu-form-group">
 		<view class="title">组队地址</view>

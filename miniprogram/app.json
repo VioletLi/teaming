@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/about/about",
     "pages/myTeams/myTeams",
     "pages/memberList/memberList",
     "pages/messageList/messageList",
@@ -20,7 +21,6 @@
     "pages/center/center",
     "pages/teamInfo/teamInfo",
     "pages/chat/chat",
-    "pages/about/about",
     "pages/settings/settings",
     "pages/search/search",
     "pages/newTeam/newTeam",
@@ -29,7 +29,7 @@
   "window": {
     "backgroundColor": "#6D63C4",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#6D63D4",
+    "navigationBarBackgroundColor": "#d291bc",
     "navigationBarTitleText": "Teaming",
     "navigationBarTextStyle": "white",
     "enablePullDownRefresh": true

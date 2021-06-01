@@ -18,8 +18,8 @@ exports.main = async (event, context) => {
 
   try {  //发送组队结果信息
     await db.collection('Team')
-      .where({
-        deadline:_.neq(null).and(_.lte(new Date())),
+      .where({  //队伍结束日期小于当前且不是无限且未被过期过
+        deadline:_.neq(null).and(_.lte(new Date())),  
         isOver: false
       })
       .get()
@@ -30,7 +30,7 @@ exports.main = async (event, context) => {
           var del = info[i]
           // 根据时间结束的一般都是失败了
           db.collection('Message').add({
-            data:{
+            data:{  //向队伍中每个成员发送组队结束信息
               announcer_id: del.leader,
               team_id: del._id,
               announce_time: new Date(),
@@ -39,7 +39,7 @@ exports.main = async (event, context) => {
           })
           .then(res=>{
             for (var member = 0; member < del.member_list.length; member++) {
-              db.collection('Receive').add({
+              db.collection('Receive').add({ //向队伍中每个成员发送组队结束信息
                 data: {
                   message_id: res._id,
                   isRead: false,
@@ -51,7 +51,8 @@ exports.main = async (event, context) => {
           })
           .catch(console.error)
 
-          db.collection('Message')
+          // 过期队伍中未处理的申请信息
+          db.collection('Message')  
           .where({
             team_id:del._id,
             type: 1
@@ -66,7 +67,7 @@ exports.main = async (event, context) => {
                 message_id:rec._id
               })
               .update({
-                data: {
+                data: {  //将申请信息设置为已读
                   isRead: true
                 }
               })
@@ -77,7 +78,7 @@ exports.main = async (event, context) => {
       })
       .catch(console.error)
 
-      db.collection('Team')
+      db.collection('Team')  //将队伍设置为已结束
       .where({
         deadline:_.neq(null).and(_.lte(new Date())),
         isOver: false

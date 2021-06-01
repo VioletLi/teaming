@@ -122,16 +122,11 @@ Page({
       })
   },
   show: function (e) {
-    console.log(e)
     this.showMessage(e.currentTarget.dataset.type, e.currentTarget.dataset.isshow)
     // 没有大写
   },
 
   showMessage: function (type, isShow) {
-    console.log("type")
-    console.log(type)
-    console.log("isShow")
-    console.log(isShow)
     switch (type) {
       case this.data.messageType.application:
         this.setData({
@@ -187,9 +182,7 @@ Page({
             isRead: true
           },
           success: function (res) {
-            // console.log("success")
-            // 记得读和写的权限
-            // console.log(res.data)
+
           }
         })
     }
@@ -210,8 +203,6 @@ Page({
         type: that.data.messageType.acceptApply
       },
       success: function (res) {
-        console.log("add")
-        console.log(res)
         // 将信息变为已处理
         wx.showModal({
           title: '提示',
@@ -241,7 +232,6 @@ Page({
         team_id: that.data.messageList[that.data.currentIndex].team_id
       },
       success: function (res) {
-        console.log(res)
         // 将信息变为已处理
         wx.showModal({
           title: '提示',
@@ -288,8 +278,6 @@ Page({
   },
 
   deleteMessage: function(e) {
-    console.log('delete')
-    console.log(e)
     const index = e.currentTarget.dataset.index
     const type = this.data.messageList[index].type
     if (type == this.data.messageType.application) {
@@ -318,16 +306,11 @@ Page({
         id: that.data.id
       },
       success: function (res) {
-        console.log("call success")
-        console.log(res)
         that.setData({
           messageList: res.result.message.list
         })
-        console.log("messageList")
-        console.log(that.data.messageList)
       },
       fail: function (err) {
-        console.log("call err")
         console.log(err)
       }
     })

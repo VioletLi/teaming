@@ -54,7 +54,6 @@ Page({
     //获取所有与自己相关的队伍存到data，待实现
     const team_id=options.team_id;
     var app = getApp();
-    // console.log(team_id);
     this.getteaminfo(team_id);
     this.getteammember(team_id);
     this.setData({
@@ -66,7 +65,6 @@ Page({
   handleTabsItemChange(e)
   {
     // 这里有传过来的参数index
-    // console.log(e);
     const {index}=e.detail;
     let {tabs}=this.data;
     tabs.forEach((v,i)=>i===index?v.isActive=true:v.isActive=false);
@@ -80,7 +78,6 @@ Page({
     // const teams = db.collection('Team');
     db.collection('Team').doc(team_id).get().then(res => {
       // res.data 包含该记录的数据
-      // console.log("aaa");
       if(res.data.deadline != null)
         res.data.deadline=res.data.deadline.toLocaleDateString();
       else
@@ -100,7 +97,6 @@ Page({
         .doc(this.data.teaminfo.label_id)
         .get()
         .then(res=>{
-          console.log(res)
           this.setData({
             teamlabel: res.data
           })
@@ -113,8 +109,6 @@ Page({
   getnickname: function (member_id)
   {
     var that=this;
-    // console.log("ok");
-    console.log(member_id);
     const db = wx.cloud.database()
           //获取队伍member
           const persons = db.collection('Person');
@@ -122,7 +116,6 @@ Page({
               _id:member_id
             }).get({
               success:function(res){
-                // console.log(res.data);
                 let memberlist=that.data.teammembers;
                 memberlist.push(res.data[0]);
                 that.setData({teammembers:memberlist});
@@ -133,7 +126,6 @@ Page({
   getteammember: function (options)
   {
     var that = this;
-    console.log(options)
     wx.cloud.callFunction({
       // 云函数名称
       name: 'getMember',
@@ -142,9 +134,8 @@ Page({
         team_id: options
       },
       success: function(res) {
-        console.log(res.result) // 3
         that.setData({
-          memberList: res.result.member.list,
+          memberList: res.result.member.list,  //获取成员信息
           team: res.result.team.data
         })
         
@@ -152,7 +143,7 @@ Page({
           if (item.member_id == that.data.userID) {
               return true;
           }
-        })
+        })  //看用户是否存在在当前队伍中
 
         if (result == true) {
           that.setData({
@@ -162,7 +153,7 @@ Page({
         if (that.data.team.leader == that.data.userID) {
           that.setData({
             isManage: true
-          })
+          })  //leader存放的是队长的_id，通过这个比较可看出用户是否为当前队伍队长
         }
         else {
           that.setData({
@@ -176,21 +167,13 @@ Page({
     },
 
     showModal(e) {
-      var idx = e.currentTarget.dataset.idx
+      var idx = e.currentTarget.dataset.idx  //获取被处理成员的_id
       let memberList = this.data.memberList;
-      let message = this.data.message;
-      let deleteID = this.data.delteID;
-      // this.setData({
-      //   modalName: e.currentTarget.dataset.target,
-      //   message: "确定将队员 " + memberList[idx].name + " 移除队伍吗？",  
-      //   deleteID: idx
-      // })  
       if (e.currentTarget.dataset.target == "DialogModal1") {
-        console.log(memberList)
         this.setData({
           modalName: e.currentTarget.dataset.target,
           message: "确定将队员 " + memberList[idx].info[0].nickname + " 移除队伍吗？",  
-          deleteID: idx
+          deleteID: idx //保存被处理成员的_id
         }) 
       }
       else if (e.currentTarget.dataset.target == "DialogModal2") {
@@ -198,7 +181,7 @@ Page({
         this.setData({
           modalName: e.currentTarget.dataset.target,
           message: "确定退出队伍 " + teaminfo.team_name + " 吗？",  
-          deleteID: idx
+          deleteID: idx //保存被处理成员的_id
         }) 
       }
     },
@@ -208,35 +191,31 @@ Page({
         modalName: null
       })
       var res = e.currentTarget.dataset.res
-      // 根据传参键值，获取点击事件传来的image值
-      if (res == "1") {
+      if (res == "1") {  // 退出/移除事件用户点击确认
         let memberlist = this.data.memberList;
         memberlist[this.data.deleteID].isDelete = true
         var op = e.currentTarget.dataset.op
-        if (op == "remove") {
+        if (op == "remove") {  // 队长移除队员出队伍
           this.setData({
             memberList: memberlist,
             deleteID: 0,
             modalName: "Modal1",
             deleteList: this.data.deleteList.concat(memberlist[this.data.deleteID].member_id)
           }) 
-          console.log(this.data.deleteList)
         }
-        else if (op == "quit") {
+        else if (op == "quit") { //队员退出队伍
           this.setData({
             memberList: memberlist,
             deleteID: 0,
             modalName: "Modal2",
             deleteList: this.data.deleteList.concat(memberlist[this.data.deleteID].member_id)
           }) 
-          console.log(this.data.deleteList)
         }
-        console.log("删除")
   
         var that = this;
         wx.cloud.callFunction({
           // 云函数名称
-          name: 'deleteMember',
+          name: 'deleteMember', //使用云函数删除成员
           // 传给云函数的参数
           data: {
             team_id:  this.data.teamID,
@@ -244,7 +223,6 @@ Page({
           },
           success: function(res) {
             if(op == "quit") {  //退出是给队长发消息
-              // type, announcer_id, receive_id, team_id
               wx.cloud.callFunction({
                 // 云函数名称
                 name: 'sendMessage',
@@ -282,31 +260,28 @@ Page({
           fail: console.error
         })
         
-      } else {
-        console.log("不删除")
-      }
+      } 
     },
 
     joinTeam: function() {
-      // 发送申请加入队伍的申请，未实现
+      // 发送申请加入队伍的申请
       var that = this;
 
       const db = wx.cloud.database()
 
-      this.setData({
+      this.setData({  //一次点击后在处理完数据之前不允许再次点击
         canClick: false
       })
 
-      db.collection('Message').where({
+      db.collection('Message').where({  //发送申请信息
         type: that.data.messageType.application, 
         announcer_id: that.data.userID, 
         team_id: that.data.teamID
       }).get().then(res => {
-        console.log(res)
-        if (res.data.length == 0) {
+        if (res.data.length == 0) {  //没有数据说明没有申请过
           wx.cloud.callFunction({
             // 云函数名称
-            name: 'sendMessage',
+            name: 'sendMessage',  //调用云函数进行接受信息的发送
             // 传给云函数的参数
             data: {
               type: that.data.messageType.application, 
@@ -326,11 +301,11 @@ Page({
           })
         }
         else {
-          db.collection('Receive').where({
+          db.collection('Receive').where({ //有提交过申请，查看是否被处理
             message_id: res.data[0]._id,
             isRead: false,
           }).get().then(res=>{
-            if (res.data.length > 0) {
+            if (res.data.length > 0) { //未被处理前不可再次提交
               wx.showToast({
                 title: '您已提交申请！',
               })
@@ -339,7 +314,7 @@ Page({
               })
             }
             else {
-              wx.cloud.callFunction({
+              wx.cloud.callFunction({  //已经被处理可以再次提交
                 // 云函数名称
                 name: 'sendMessage',
                 // 传给云函数的参数
@@ -375,8 +350,8 @@ Page({
       const team_id = that.data.teamID
       const member_list = that.data.teaminfo.member_list
       
-      console.log("finish")
       try{
+            // 首先过期队伍中剩余未处理的申请信息
             db.collection('Message')
             .where({
               team_id:team_id,
@@ -392,7 +367,7 @@ Page({
                   message_id:rec._id
                 })
                 .update({
-                  data: {
+                  data: {  // 设置为已读
                     isRead: true
                   }
                 })
@@ -400,6 +375,7 @@ Page({
             })
             .catch(console.error)
 
+            //将队伍设置未已结束
             db.collection("Team").where({
               _id: team_id
             })
@@ -408,7 +384,7 @@ Page({
                 isOver: true
               }
             })
-            .then(res=>{
+            .then(res=>{ //给队伍成员发送组队结束信息
               db.collection('Message').add({
                 data: {
                   type: 2,
@@ -435,7 +411,7 @@ Page({
               title: '结束组队成功！',
             })
             setTimeout(function () {
-              //要延时执行的代码
+              //要延时执行的代码，更新队伍信息数据
               that.getteaminfo(team_id);
               that.getteammember(team_id);
             }, 1000)

@@ -9,8 +9,6 @@ Component({
       value:[],
       observer(val) {
         // 第一种方式通过参数传递的方式触发函数的执行
-        // this.logInfo();
-        // console.log(val);
         this.setData({allteaminfo:val,teamtabinfo:val})
       }
 
@@ -114,7 +112,6 @@ Component({
     // 标题点击事件 从子组件传递过来
     handleTabsItemChange(e){
       // var that=this;
-      // console.log(that.data.teamtabinfo);
       // 1 获取被点击的标题索引
       const {index}=e.detail;
       // 2 修改源数组
@@ -128,19 +125,13 @@ Component({
       else{
         this.setData({loading:true});
         for(var a=0;a<allteaminfo.length;a++){
-          // if (allteaminfo[a].label_id==index-1){
-          //   console.log(allteaminfo[a]);
-          //   teamtabinfo.push(allteaminfo[a]);
-          // }
           if (allteaminfo[a].label_id==this.data.tabs[index]._id){
-            console.log(allteaminfo[a]);
             teamtabinfo.push(allteaminfo[a]);
           }
         }
         
       this.setData({loading:false});
       }
-      // console.log(teamtabinfo);
       this.setData({
         teamtabinfo:teamtabinfo
       })

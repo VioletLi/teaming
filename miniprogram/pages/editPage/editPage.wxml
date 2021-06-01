@@ -1,25 +1,32 @@
-<!--miniprogram/pages/editPage/editPage.wxml-->
+<!-- miniprogram/pages/editPage/editPage.wxml--> 
 <form>
   <view class="cu-form-group">
 		<view class="title">队伍名称</view>
-		<input placeholder="{{title}}" maxlength="10" id='title' bindinput="fill"></input>
+		<input value="{{title}}" maxlength="10" id='title' bindinput="fill"></input>
   </view>
-  <view class="cu-form-group">
+  <!-- <view class="cu-form-group">
 		<view class="title">是否需要详细地址</view>
 		<switch bindchange="switchAddress" checked="{{needAddress}}"></switch>
   </view>
   <view class="cu-form-group" wx:if="{{needAddress}}">
 		<view class="title">组队地址</view>
-		<input placeholder="{{address}}" id='address' bindinput="fill"></input>
+		<input value="{{address}}" id='address' bindinput="fill"></input>
+		<text class="cuIcon-locationfill text-orange"></text>
+  </view> -->
+
+	<view class="cu-form-group">
+		<view class="title">组队地址</view>
+		<input value="{{address}}" id='address' bindinput="fill"></input>
 		<text class="cuIcon-locationfill text-orange"></text>
   </view>
+
   <view class="cu-form-group">
 		<view class="title">队伍人数是否有上限</view>
 		<switch bindchange="switchAmount" checked="{{amountLimit}}"></switch>
   </view>
   <view class="cu-form-group" wx:if="{{amountLimit}}">
 		<view class="title">队伍人数上限</view>
-		<input placeholder="{{member}}" id='member' bindinput="fill"></input>
+		<input value="{{member}}" id='member' bindinput="fill"></input>
   </view>
   <view class="cu-form-group">
 		<view class="title">组队是否有截止日期</view>
@@ -43,9 +50,58 @@
 	</view>
   <view class="cu-form-group">
     <view class="title">队伍简介</view>
-		<textarea maxlength="-1" disabled="{{modalName!=null}}" bindinput="fill" placeholder="{{content}}" id='content'></textarea>
+		<textarea maxlength="-1" disabled="{{modalName!=null}}" bindinput="fill" value="{{content}}" id='content'></textarea>
   </view>
   <view class="padding flex flex-direction">
     <button class="cu-btn bg-blue lg" bindtap="commit">提交</button>
   </view>
 </form>
+
+<!-- <form>
+  <view class="cu-form-group">
+		<view class="title">队伍名称</view>
+		<input placeholder="{{title}}" maxlength="10" value="{{title}}" id='title' bindinput="fill"></input>
+  </view>
+
+  <view class="cu-form-group">
+		<view class="title">组队地址</view>
+		<input placeholder="选填" id='address' bindinput="fill"></input>
+		<text class="cuIcon-locationfill text-orange"></text>
+  </view>
+
+  <view class="cu-form-group">
+		<view class="title">队伍人数是否有上限</view>
+		<switch bindchange="switchAmount" checked="{{amountLimit}}"></switch>
+  </view>
+  <view class="cu-form-group" wx:if="{{amountLimit}}">
+		<view class="title">队伍人数上限</view>
+		<input placeholder="请输入一个正整数" id='member' bindinput="fill"></input>
+  </view>
+  <view class="cu-form-group">
+		<view class="title">组队是否有截止日期</view>
+		<switch bindchange="switchEndDate" checked="{{dateLimit}}"></switch>
+  </view>
+  <view class="cu-form-group" wx:if="{{dateLimit}}">
+		<view class="title">日期选择</view>
+		<picker mode="date" value="{{date}}" start="{{curDate}}"bindchange="dateChange">
+			<view class="picker">
+				{{date}}
+			</view>
+		</picker>
+  </view>
+  <view class="cu-form-group">
+		<view class="title">队伍类别</view>
+		<picker bindchange="pickerChange" value="{{index}}" range="{{picker}}">
+			<view class="picker">
+				{{index !== -1 ?picker[index]:'选择队伍类别'}}
+			</view>
+		</picker>
+	</view>
+  <view class="cu-form-group">
+    <view class="title">队伍简介</view>
+		<textarea maxlength="-1" disabled="{{modalName!=null}}" bindinput="fill" placeholder="选填" id='content'></textarea>
+  </view>
+  <view class="padding flex flex-direction">
+    <button class="cu-btn bg-blue lg" style="background-color:#d291bc" bindtap="commit" disable='{{canClick}}' >提交</button>
+  </view>
+</form> -->

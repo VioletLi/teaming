@@ -98,7 +98,6 @@ Page({
   },
 
   goToTeamInfo: function(){
-    console.log(1);
     wx.navigateTo({
       url: '../myTeams/myTeams'
     })
