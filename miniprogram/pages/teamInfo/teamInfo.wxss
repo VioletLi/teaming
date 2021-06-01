@@ -11,7 +11,7 @@
   height: 100%;
   margin: 10rpx;
   /* background-color: blanchedalmond; */
-  background-color: rgb(241, 241, 241);
+  /* background-color: rgb(241, 241, 241); */
   border-radius: 5rpx;
 }
 .content .first_tab .tags {
@@ -102,7 +102,7 @@
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  /* -webkit-line-clamp: 3; */
   word-break: break-all;
   word-wrap: break-word;
   white-space: pre-line;

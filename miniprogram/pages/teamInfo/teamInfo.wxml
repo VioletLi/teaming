@@ -11,26 +11,114 @@
       <!-- <scroll-view  scroll-x class="tags" wx:for="{{teaminfo.label_id}}">
         <navigator > class="single_tag">{{item}}</navigator>
       </scroll-view> -->
-      <view class="status">队伍状态：
+      <!-- <view class="status">队伍状态：
         <view wx:if="{{teaminfo.isOver}}">队伍已完成！</view>
         <view wx:else>队伍组建中...</view>
-      </view>
+      </view> -->
       
       <!-- <view class="label_id">{{teaminfo.label_id}}</view> -->
-      <view class="max" wx:if="{{teaminfo.max > 0}}">组队进度：{{teaminfo.current_member}}/{{teaminfo.max}}</view>
-      <view class="max" wx:else>组队进度：{{teaminfo.current_member}}/不限</view>
-      <view class="create_time">创建时间：{{teaminfo.create_time}}</view>
-      <view class="deadline">截止时间：{{teaminfo.deadline}}</view>
-      <view class="address" wx:if="{{teaminfo.address}}">队伍地址：{{teaminfo.address}}</view>
-      <view class="address" wx:else>队伍地址：无</view>
-      <view class="info">队伍介绍: 
+      <!-- <view class="max" wx:if="{{teaminfo.max > 0}}">组队进度：{{teaminfo.current_member}}/{{teaminfo.max}}</view>
+      <view class="max" wx:else>组队进度：{{teaminfo.current_member}}/不限</view> -->
+      <!-- <view class="create_time">创建时间：{{teaminfo.create_time}}</view>
+      <view class="deadline">截止时间：{{teaminfo.deadline}}</view> -->
+      <!-- <view class="address" wx:if="{{teaminfo.address}}">队伍地址：{{teaminfo.address}}</view>
+      <view class="address" wx:else>队伍地址：无</view> -->
+      <!-- <view class="info">队伍介绍: 
       <view class="cu-tag round bg-blue light" style="background-color:#f0e3ff;color:#d89cf6"  wx:if="{{teamlabel}}">{{teamlabel.name}}</view>
         <view class="info_content">
            <rich-text class="info_content">{{teaminfo.information}}</rich-text>
         </view>
        
         
+      </view> -->
+
+    <!-- 修改ui：使用ColorUI的list组建，在app.wxss中引入，主要是写wxml -->
+    <scroll-view scroll-y>
+      <view class="cu-list menu card-menu">
+        <!-- 一个item为一项 -->
+        <!-- 状态 begin-->
+        <view class="cu-item">
+          <view class="content">
+            <text class="cuIcon-radioboxfill text-green"></text>
+            <!-- 左：标题 -->
+            <text class="text-black">状态</text>
+          </view>
+          <view class="action">
+            <!-- 右：文本内容 -->
+            <text class="text-green text-sm"  wx:if="{{teaminfo.isOver}}">队伍
+              队伍已完成！
+            </text>
+            <text class="text-grey text-sm" wx:else>队伍组建中...</text>
+          </view>
+        </view>
+        <!-- 状态 end -->
+        <!-- 进度 begin -->
+        <view class="cu-item">
+          <view class="content">
+            <text class="cuIcon-group_fill text-green"></text>
+            <text class="text-black">进度</text>
+          </view>
+          <view class="action">
+            
+            <text class="text-grey text-sm"  wx:if="{{teaminfo.max > 0}}">{{teaminfo.current_member}}/{{teaminfo.max}}</text>
+            <text class="text-blue text-sm" wx:else>{{teaminfo.current_member}}/不限</text>
+          </view>
+        </view>
+        <!-- 进度 end -->
+        <!-- 时间（开始+截止） begin -->
+        <view class="cu-item">
+          <view class="content">
+            <text class="cuIcon-time text-green"></text>
+            <text class="text-black">创建时间</text>
+          </view>
+          <view class="action">
+            
+            <text class="text-black text-sm">{{teaminfo.create_time}}</text>
+          </view>
+        </view>
+
+        <view class="cu-item">
+          <view class="content">
+            <text class="cuIcon-timefill text-red"></text>
+            <text class="text-black">截止时间</text>
+          </view>
+          <view class="action">
+            
+            <text class="text-red text-sm">{{teaminfo.deadline}}</text>
+          </view>
+        </view>
+        <!-- 时间 end -->
+        <!-- 地址 begin -->
+        <view class="cu-item">
+          <view class="content">
+            <text class="cuIcon-location text-green"></text>
+            <text class="text-black">队伍地址</text>
+          </view>
+          <view class="action">
+            
+            <text class="text-black text-sm" wx:if="{{teaminfo.address}}">{{teaminfo.address}}</text>
+            <text class="text-grey text-sm" wx:else>无</text>
+
+          </view>
+        </view>
+        <!-- 地址 end-->
+        <!-- 队伍介绍 begin-->
+        <view class="cu-item">
+          <view class="content padding-tb-sm">
+            <view>
+              <text class="cuIcon-commentfill text-blue margin-right-xs"></text>队伍介绍</view>
+            <view class="text-black text-sm info_content">
+              {{teaminfo.information}}
+            </view>
+
+          </view>
+          <view class="action">
+            <view class="cu-tag round bg-orange light" wx:if="{{teamlabel}}">{{teamlabel.name}}</view>
+          </view>
+        </view>
+        <!-- 队伍介绍 end -->
       </view>
+      </scroll-view>
     </view>
 </block>
 
