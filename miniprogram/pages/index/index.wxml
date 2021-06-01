@@ -16,7 +16,7 @@
                 <view class="teamname">
                     {{item.team_name}} 
                     <view wx:for="{{tabs}}" wx:for-item="tab">
-                        <view class="cu-tag round bg-blue light" style="background-color:#f0e3ff;color:#d89cf6"style="background-color:#f0e3ff;color:#d89cf6" wx:if="{{tab._id == item.label_id}}">{{tab.name}}</view>
+                        <view class="cu-tag round bg-blue light" style="background-color:#f0e3ff;color:#d89cf6" wx:if="{{tab._id == item.label_id}}">{{tab.name}}</view>
                     </view>
                 </view>
                 

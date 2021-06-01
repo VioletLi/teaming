@@ -39,59 +39,6 @@ Component({
    * 组件的初始数据
    */
   data: {
-// 0. 全部
-// 1. 学习
-// 2. 锻炼
-// 3. 吃喝
-// 4. 购物
-// 5. 娱乐
-// 6. 其它
-    // tabs:[{
-    //   id: 0,
-    //   name: "全部",
-    //   isActive: true
-    // },
-    // {
-    //   id: 1,
-    //   name: "学习",
-    //   isActive: false
-    // },
-    // {
-    //   id: 2,
-    //   name: "锻炼",
-    //   isActive: false
-    // },
-    // {
-    //   id: 3,
-    //   name: "吃喝",
-    //   isActive: false
-    // },
-    // {
-    //   id: 4,
-    //   name: "购物",
-    //   isActive: false
-    // },
-    // {
-    //   id: 5,
-    //   name: "娱乐",
-    //   isActive: false
-    // },
-    // {
-    //   id: 6,
-    //   name: "其它",
-    //   isActive: false
-    // },
-    // {
-    //   id: 7,
-    //   name: "其它2",
-    //   isActive: false
-    // },
-    // {
-    //   id: 8,
-    //   name: "其它3",
-    //   isActive: false
-    // }
-    // ],
     teamtabinfo:[],
     allteaminfo:[]
 

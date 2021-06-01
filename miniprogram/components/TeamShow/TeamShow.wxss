@@ -1,12 +1,17 @@
 /* components/TeamShow/TeamShow.wxss */
+@import "../../colorui/main.wxss";
+Page {
+  height: 100%;
+}
 Page {
   height: 100%;
 }
 .index_container {
-  padding: 0 10rpx;
+  padding: 5rpx  0 10rpx;
   height: 100%;
   /* background-color: var(--themeColor); */
   background-color: rgb(241, 241, 241);
+  /* background-color: #ffba93; */
 }
 .index_container .index_list {
   height: 100%;
@@ -30,16 +35,17 @@ Page {
 }
 .index_container .index_list .single_team .single_upper .teamname {
   flex: 4;
+  display: flex;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: flex;
   white-space: nowrap;
   /* height: 100%; */
-  font-weight: bold;
+  /* font-weight: bold; */
   align-items: center;
   /* justify-content: center; */
   font-size: 36rpx;
   margin-left: 10rpx;
+  /* color: #d89cf6; */
 }
 .index_container .index_list .single_team .single_upper .isleader {
   flex: 1;
@@ -57,7 +63,8 @@ Page {
   margin-right: 10rpx;
 }
 .index_container .index_list .single_team .line {
-  border: 0.5rpx solid gray;
+  border: 0.5rpx solid #d89cf6;
+  color: #d291bc;
   /* height: 1rpx; */
   /* background-color: gray; */
 }
@@ -92,6 +99,30 @@ Page {
   justify-content: center;
   align-items: center;
 }
+
+.bubble{ 
+  position: relative;
+  overflow: hidden;
+ }
+ .bubble:after{
+  content: "";
+  background: rgb(179, 171, 255);
+  position: absolute; 
+  width: 750rpx;
+  height: 750rpx;
+  left: calc(50% - 375rpx);
+  top: calc(50% - 375rpx);
+  opacity: 0;
+  margin: auto;
+  border-radius: 50%;
+  transform: scale(1);
+  transition: all 0.4s ease-in-out;
+ }
+ .bubble:active:after {
+  transform: scale(0);
+  opacity: 1;
+  transition: 0s;
+ }
 
 .noresult{
   display: flex;

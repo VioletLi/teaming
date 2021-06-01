@@ -1,13 +1,13 @@
 /* pages/search/search.wxss */
 
 
-icon{
+ icon{
   display: flex;
   justify-content: center;
   align-items: center;
 
 
-}
+} 
 .search_row {
   margin: 10rpx;
   height: 80rpx;
@@ -43,16 +43,16 @@ icon{
   
 }
 .search_row button {
-  border-radius: 20rpx;
-  background-color: rgb(231, 228, 228);
+  /* border-radius: 20rpx; */
+  /* background-color: rgb(231, 228, 228); */
   flex:1.2;
   height: 100%;
-  padding: 0;
-  margin: 0 20rpx;
+  padding: 20rpx;
+  margin: 20rpx 20rpx;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30rpx;
+  /* font-size: 30rpx; */
 }
 .search_content {
   margin-top: 30rpx;
@@ -66,3 +66,10 @@ icon{
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+/* .box {  
+  margin: 20rpx 0; 
+}
+
+.box view.cu-bar {
+  margin-top: 20rpx; 
+} */

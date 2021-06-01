@@ -3,7 +3,10 @@
   <input value="{{inpValue}}" placeholder="查找队伍" bindinput="handleInput"> </input>
   <!-- <icon class="cancel" type="cancel" bindtap="cancelinput"></icon> -->
   <text class="cuIcon-roundclose text-xxl text-gray bg-white"  bindtap="cancelinput"></text>
-  <button bindtap="handlesearch">搜索</button>
+  <!-- <button bindtap="handlesearch">搜索</button> -->
+  <!-- <view class="action"> -->
+  <button class="cu-btn light shadow-blur round" style="background-color:#f0e3ff;color:#d89cf6" bindtap="handlesearch">搜索</button>
+  <!-- </view> -->
 </view>
 
 <TeamShow tabs="{{tabs}}" teaminfo="{{teaminfo}}" searched="{{searched}}" loading="{{loading}}" searchover="{{searchover}}"></TeamShow>

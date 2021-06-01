@@ -22,16 +22,16 @@
                 <!-- 显示队伍列表 -->
                 <scroll-view scroll-y class="index_list">
                     <!-- 单个队伍框-->
-                    <navigator class="single_team  padding-xl radius shadow-warp bg-white margin-top"
+                    <navigator class="single_team bubble padding-xl radius shadow-warp bg-white margin-top"
                     wx:for="{{teamtabinfo}}"
                     url="/pages/teamInfo/teamInfo?team_id={{item._id}}">
                         <!-- 上：队伍名   截止时间 -->
                         <view class="single_upper">
                             <view class="teamname">
                                 {{item.team_name}}
-                                <!-- <view wx:for="{{tabs}}" wx:for-item="tab">
+                                <view wx:for="{{tabs}}" wx:for-item="tab">
                                     <view class="cu-tag round bg-blue light" wx:if="{{tab._id == item.label_id}}">{{tab.name}}</view>
-                                </view> -->
+                                </view>
                             </view>
                 <!-- <view class="isleader"></view> -->
                             <view class="deadline">
