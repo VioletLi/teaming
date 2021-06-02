@@ -20,7 +20,10 @@ Page({
     picker:['a', 'b'],
     labelList:[],
     index:-1,
-    canClick: true
+    canClick: true,
+    picindex:null,
+    imgList:[],
+    pics:[]
   },
 
   /**
@@ -108,6 +111,62 @@ Page({
       dateLimit: e.detail.value
     })
   },
+  ChooseImage : function() {
+    wx.chooseImage({
+      count: 4, //默认9
+      sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+      sourceType: ['album'], //从相册选择
+      success: (res) => {
+        if (this.data.imgList.length != 0) {
+          this.setData({
+            imgList: this.data.imgList.concat(res.tempFilePaths)
+          })
+        } else {
+          this.setData({
+            imgList: res.tempFilePaths
+          })
+        }
+        console.log(res.tempFilePaths)
+      }
+    });
+  },
+  ViewImage : function(e) {
+    wx.previewImage({
+      urls: this.data.imgList,
+      current: e.currentTarget.dataset.url
+    });
+  },
+  DelImg :function(e) {
+    wx.showModal({
+      content: '确定要删除这张图片吗？',
+      cancelText: '再看看',
+      confirmText: '确认',
+      success: res => {
+        if (res.confirm) {
+          this.data.imgList.splice(e.currentTarget.dataset.index, 1);
+          this.setData({
+            imgList: this.data.imgList
+          })
+        }
+      }
+    })
+  },
+  uploadPics : function(e){
+    var that = this
+    this.data.imgList.forEach((data)=>{
+        var d = data.split('/')
+        wx.cloud.uploadFile({
+          cloudPath: d[d.length - 1],
+          filePath:data,
+          success: res => {
+            // get resource ID
+            that.setData({
+              pics:that.data.pics.concat(res.fileID)
+            })
+          },
+        })
+      })
+  },
 
   pickerChange: function(e) {
     this.setData({
@@ -133,12 +192,6 @@ Page({
         icon: 'error'
       })
     }
-    // else if(this.data.needAddress && this.data.address === ''){
-    //   wx.showToast({
-    //     title: '请输入详细地址',
-    //     icon: 'error'
-    //   })
-    // }
     else if(this.data.amountLimit && regNum.exec(this.data.member) === null){
       wx.showToast({
         title: '请输入有效数字',
@@ -157,83 +210,93 @@ Page({
       const db = wx.cloud.database()
       const team = db.collection("Team")
       var now = new Date()
-      team.add({
-        data:{
-          address:that.data.address,
-          max:parseInt(that.data.member),
-          label_id:that.data.labelList[that.data.index]._id,
-          create_time:now,
-          deadline:that.data.dateLimit ? new Date(that.data.date) : null,
-          information:that.data.content,
-          team_name:that.data.title,
-          current_member:1,
-          isOver:false,
-          status:1,
-          leader: app.globalData.userInfo._id,
-          member_list: new Array(app.globalData.userInfo._id)
-        },
-        success:function(res){
-          wx.cloud.callFunction({
-            name:'login',
-            data:{
-              message:'helloCloud',
-            }
-          }).then(res2=>{
-            db.collection("Member").add({
+      this.uploadPics()
+      setTimeout(() => {
+        team.add({
+          data:{
+            address:that.data.address,
+            max:parseInt(that.data.member),
+            label_id:that.data.labelList[that.data.index]._id,
+            create_time:now,
+            deadline:that.data.dateLimit ? new Date(that.data.date) : null,
+            information:that.data.content,
+            team_name:that.data.title,
+            current_member:1,
+            isOver:false,
+            status:1,
+            leader: app.globalData.userInfo._id,
+            member_list: new Array(app.globalData.userInfo._id),
+            pic_list:that.data.pics
+          },
+          success:function(res){
+            wx.cloud.callFunction({
+              name:'login',
               data:{
-                team_id:res["_id"],
-                isLeader:true,
-                member_id: app.globalData.userInfo._id
-              },
-              success:function(res2){
-                wx.showToast({
-                  title: '提交成功！',
-                })
-                
-                that.setData({
-                  needAddress:false,
-                  amountLimit:false,
-                  dateLimit:false,
-                  date:null,
-                  userid:null,
-                  title:"",
-                  member:-1,
-                  content:'',
-                  address:'',
-                  monthDay:[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-                  picker:['a', 'b'],
-                  labelList:[],
-                  index:-1,
-                  canClick: true
-                })
-                setTimeout(function () {
-                  //要延时执行的代码
-                  wx.switchTab({
-                    url: '../index/index'
-                  });
-                }, 1000) 
-              },
-              fail:function(res2){
-                team.doc(res["_id"]).remove()
-                wx.showToast({
-                  title: '提交失败！',
-                  icon:"loading"
-                })
+                message:'helloCloud',
               }
+            }).then(res2=>{
+              db.collection("Member").add({
+                data:{
+                  team_id:res["_id"],
+                  isLeader:true,
+                  member_id: app.globalData.userInfo._id
+                },
+                success:function(res2){
+                  wx.showToast({
+                    title: '提交成功！',
+                  })
+                  
+                  that.setData({
+                    needAddress:false,
+                    amountLimit:false,
+                    dateLimit:false,
+                    date:null,
+                    userid:null,
+                    title:"",
+                    member:-1,
+                    content:'',
+                    address:'',
+                    monthDay:[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+                    picker:['a', 'b'],
+                    labelList:[],
+                    index:-1,
+                    canClick: true,
+                    picindex:null,
+                    imgList:[]
+                  })
+                  setTimeout(function () {
+                    //要延时执行的代码
+                    wx.switchTab({
+                      url: '../index/index'
+                    });
+                  }, 1000) 
+                },
+                fail:function(res2){
+                  team.doc(res["_id"]).remove()
+                  wx.showToast({
+                    title: '提交失败！',
+                    icon:"loading"
+                  })
+                }
+              })
             })
-          })
-        },
-        fail:function(res){
-          wx.showToast({
-            title: '提交失败！',
-            icon:"loading"
-          })
-        }
-      })
+          },
+          fail:function(res){
+            wx.showToast({
+              title: '提交失败！',
+              icon:"loading"
+            })
+          }
+        })
+      }, 1500);
+      
       
     }
     this.setData({
       canClick: true
     })
-  }
+  },
+
+  
 })
+

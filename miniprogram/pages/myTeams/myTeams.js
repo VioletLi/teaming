@@ -17,12 +17,17 @@ Page({
   onLoad: function (options) {
     var app = getApp();
     this.setData({
-      userid: app.globalData.userInfo._id
+      userid: app.globalData.userInfo._id,
     })
     this.getTeam()
   },
 
   getTeam: function() {
+    setTimeout(() => {
+      this.setData({
+        info:[]
+      })
+    }, 100);
     console.log("myteam")
     var that = this
     wx.cloud.callFunction({
@@ -66,7 +71,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-   this.onLoad()
   },
 
   /**
