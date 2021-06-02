@@ -42,7 +42,9 @@ Page({
     teamID: "b00064a760867de4117130e9399892fe",
     deleteList: [],
 
-    canClick: true
+    canClick: true,
+    // 轮播图
+    swiperList:[]
 
   },
 
@@ -60,6 +62,7 @@ Page({
       teamID: team_id,
       userID: app.globalData.userInfo._id
     })
+
   },
 
   handleTabsItemChange(e)
@@ -71,6 +74,11 @@ Page({
     this.setData(
       {tabs}
     )
+  },
+  cardSwiper(e) {
+    this.setData({
+      cardCur: e.detail.current
+    })
   },
   getteaminfo(team_id)
   {
@@ -85,9 +93,11 @@ Page({
       res.data.create_time=res.data.create_time.toLocaleDateString();
       this.setData(
         {
-          teaminfo:res.data
+          teaminfo:res.data,
+          swiperList:res.data.pic_list
         }
-      )
+      );
+      console.log(this.data.swiperList);
       wx.setNavigationBarTitle({
         title: res.data.team_name//页面标题为路由参数
       })

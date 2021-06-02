@@ -66,6 +66,7 @@ Component({
       // 重新设置tamtabinfo
       var teamtabinfo=[];
       var allteaminfo=this.data.allteaminfo;
+      console.log(allteaminfo);
       if (index==0){
         teamtabinfo=allteaminfo;
       }

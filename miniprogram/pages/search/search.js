@@ -69,6 +69,11 @@ Page({
             //日期转换
             if(res.data[a].deadline != null)
               res.data[a].deadline=res.data[a].deadline.toLocaleDateString();
+                                          //获取首页图片
+            if(res.data[a].pic_list!=null&&res.data[a].pic_list[0]!=null)
+            res.data[a].picture=res.data[a].pic_list[0];
+          else
+            res.data[a].picture="https://wx3.sinaimg.cn/mw1024/008gNS3Fly1gr4741peyrj31400u0k0r.jpg";
           }
         this.setData({teaminfo:res.data})
       })
@@ -97,8 +102,15 @@ Page({
             //日期转换
             if(res.data[a].deadline != null)
               res.data[a].deadline=res.data[a].deadline.toLocaleDateString();
+              //获取首页图片
+
+            if(res.data[a].pic_list!=null&&res.data[a].pic_list[0]!=null)
+              res.data[a].picture=res.data[a].pic_list[0];
+            else
+              res.data[a].picture="https://wx3.sinaimg.cn/mw1024/008gNS3Fly1gr4741peyrj31400u0k0r.jpg";
           }
-        this.setData({teaminfo:res.data})
+        this.setData({teaminfo:res.data});
+
       })
     }
     
@@ -125,6 +137,11 @@ Page({
             //日期转换
             if(res.data[a].deadline != null)
               res.data[a].deadline=res.data[a].deadline.toLocaleDateString();
+                            //获取首页图片
+            if(res.data[a].pic_list!=null&&res.data[a].pic_list[0]!=null)
+            res.data[a].picture=res.data[a].pic_list[0];
+          else
+            res.data[a].picture="https://wx3.sinaimg.cn/mw1024/008gNS3Fly1gr4741peyrj31400u0k0r.jpg";
           }
         this.setData({teaminfo:res.data})
       })

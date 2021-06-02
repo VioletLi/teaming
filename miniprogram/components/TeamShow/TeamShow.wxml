@@ -19,42 +19,53 @@
 
             <!-- 有结果 -->
             <view wx:if="{{teamtabinfo.length}}">
-                <!-- 显示队伍列表 -->
-                <scroll-view scroll-y class="index_list">
-                    <!-- 单个队伍框-->
-                    <navigator class="single_team bubble padding-xl radius shadow-warp bg-white margin-top"
-                    wx:for="{{teamtabinfo}}"
-                    url="/pages/teamInfo/teamInfo?team_id={{item._id}}">
-                        <!-- 上：队伍名   截止时间 -->
-                        <view class="single_upper">
-                            <view class="teamname">
-                                {{item.team_name}}
+                <view class="index_container cu-card case" style="padding-bottom:80rpx"> 
+                    <!-- 显示的队伍列表 -->
+                    <scroll-view scroll-y class="index_list">
+                        <!-- 使用colorui begin-->
+                        <navigator 
+                        class="cu-item shadow bubble single_team"
+                        wx:for="{{teaminfo}}"
+                        url="/pages/teamInfo/teamInfo?team_id={{item._id}}">
+
+                            <view class="image">
+                                <image src="{{item.picture}}" mode="aspectFill"></image>
+                                
                                 <view wx:for="{{tabs}}" wx:for-item="tab">
-                                    <view class="cu-tag round bg-blue light" wx:if="{{tab._id == item.label_id}}">{{tab.name}}</view>
+                                    <view class="cu-tag round" style="background-color:#f0e3ff;color:#d89cf6;margin:10rpx;" wx:if="{{tab._id == item.label_id}}">{{tab.name}}
+                                    </view>
+                                </view>
+                                
+                            </view>
+
+                            <rich-text class=" info text-content" wx:if="{{item.information}}">{{item.information}}</rich-text>
+                            <rich-text wx:else class="info text-content">该队伍无详细信息</rich-text>
+
+                            <view class="cu-list">
+                                <view class="cu-item">
+                                    <view class="text-grey text-xxl flex justify-between" style="padding:5rpx">{{item.team_name}}
+                                    <view class="text-gray text-xl">
+                                        <text class="cuIcon-friend margin-left-xl"> </text>
+                                        <text wx:if="{{item.max>0}}">{{item.current_member}}/{{item.max}}</text>
+                                        <text wx:else>{{item.current_member}}/不限</text>
+                                    </view>
+                                    </view>
+
+                                    <view class="text-gray text-sm flex justify-between" style="padding:0 10rpx;" wx:if="{{item.deadline != null}}">{{item.deadline}}</view>
+
+                                    <view class="text-gray text-sm flex justify-between" wx:else style="padding:0 10rpx;">无截止日期
+
+
+                                </view>
                                 </view>
                             </view>
-                <!-- <view class="isleader"></view> -->
-                            <view class="deadline">
-                                <text style="position: absolute;right: 0;" wx:if="{{item.deadline != null}}">{{item.deadline}}</text>
-                                <text style="position: absolute;right: 0;" wx:else>无截止日期</text>
-                            </view>
-                        </view>
-                        <!-- 一条虚线 -->
-                        <view class="line"></view>
-                        <!-- 下：信息  当前人数/人数上限 -->
-                        <view class="single_down">
-                            <rich-text class="info" wx:if="{{item.information}}">{{item.information}}</rich-text>
-                            <rich-text class="info" wx:else>该队伍无详细信息</rich-text>
-                            <view class="peoplenumber" wx:if="{{item.max > 0}}">
-                                <text style="position: absolute;right: 0;">{{item.current_member}}/{{item.max}}</text>
-                            </view>
-                            <view class="peoplenumber" wx:else>
-                                <text style="position: absolute;right: 0;">{{item.current_member}}/不限</text>
-                            </view>
-                        </view>
-                    </navigator>
-                </scroll-view>
+                        </navigator>
+
+                    </scroll-view>
+                </view>
+
             </view>
+               
             <!-- 没结果 -->
             <view hidden="{{homepage}}" style="white-space:pre-wrap" class="noresult" wx:else>没有搜索到相关内容呢</view>
         </view>
