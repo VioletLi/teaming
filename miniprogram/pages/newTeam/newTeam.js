@@ -21,7 +21,6 @@ Page({
     labelList:[],
     index:-1,
     canClick: true,
-    picindex:null,
     imgList:[],
     pics:[]
   },

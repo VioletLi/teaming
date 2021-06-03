@@ -17,9 +17,66 @@ Page({
     address:'',
     monthDay:[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
     picker:['a', 'b'],
-    index:-1
+    index:-1,
+    imgList:[],
+    pics:[]
   },
-
+  ChooseImage : function() {
+    wx.chooseImage({
+      count: 4, //默认9
+      sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+      sourceType: ['album'], //从相册选择
+      success: (res) => {
+        if (this.data.imgList.length != 0) {
+          this.setData({
+            imgList: this.data.imgList.concat(res.tempFilePaths)
+          })
+        } else {
+          this.setData({
+            imgList: res.tempFilePaths
+          })
+        }
+        console.log(res.tempFilePaths)
+      }
+    });
+  },
+  ViewImage : function(e) {
+    wx.previewImage({
+      urls: this.data.imgList,
+      current: e.currentTarget.dataset.url
+    });
+  },
+  DelImg :function(e) {
+    wx.showModal({
+      content: '确定要删除这张图片吗？',
+      cancelText: '再看看',
+      confirmText: '确认',
+      success: res => {
+        if (res.confirm) {
+          this.data.imgList.splice(e.currentTarget.dataset.index, 1);
+          this.setData({
+            imgList: this.data.imgList
+          })
+        }
+      }
+    })
+  },
+  uploadPics : function(e){
+    var that = this
+    this.data.imgList.forEach((data)=>{
+        var d = data.split('/')
+        wx.cloud.uploadFile({
+          cloudPath: d[d.length - 1],
+          filePath:data,
+          success: res => {
+            // get resource ID
+            that.setData({
+              pics:that.data.pics.concat(res.fileID)
+            })
+          },
+        })
+      })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -93,11 +150,26 @@ Page({
           member:data["max"],
           content: data["information"],
           address: data["address"],
-          index: indexi
+          index: indexi,
+          pics:data["pic_list"]
+        },()=>{
+          console.log(that.data.pics)
+          that.data.pics.forEach((res)=>{
+            wx.cloud.downloadFile({
+              fileID: res,
+              success: f => {
+                console.log(f)
+                this.setData({
+                  imgList : that.data.imgList.concat(f["tempFilePath"])
+                }, ()=>{
+                  console.log(that.data.imgList)
+                })
+              }
+            })
+          })
         })
     })
     .catch()
-    console.log(that.data.title)
   },
 
   /**
@@ -187,6 +259,31 @@ Page({
     })
   },
 
+  uploadPics : function(e){
+    var that = this
+    wx.cloud.deleteFile({
+      fileList:that.data.pics
+    })
+    setTimeout(() => {
+      that.setData({
+        pics:[]
+      }, ()=>{
+        that.data.imgList.forEach((data)=>{
+          var d = data.split('/')
+          wx.cloud.uploadFile({
+            cloudPath: d[d.length - 1],
+            filePath:data,
+            success: res => {
+              // get resource ID
+              that.setData({
+                pics:that.data.pics.concat(res.fileID)
+              })
+            },
+          })
+        })
+      })
+    }, 100);
+  },
   commit:function(e){
     var regNum = new RegExp('(^[1-9][0-9]*)|^0$','g')
     if(this.data.title === null){
@@ -214,56 +311,61 @@ Page({
       var now = null
       const db = wx.cloud.database()
       const team = db.collection("Team")
-      team.doc(that.data.teamid).get({
-        success:function(res){
-          now = res["data"]["create_time"]
-          team.doc(that.data.teamid).update({
-            data:{
-              address:that.data.address,
-              max:that.data.member,
-              label_id:that.data.labelList[that.data.index]._id,
-              deadline:that.data.dateLimit ? new Date(that.data.date) : null,
-              information:that.data.content,
-              team_name:that.data.title,
-              status:1
-            },
-            success:function(res){
-              wx.showToast({
-                title: '提交成功！',
-                icon:"success"
-              })
-              setTimeout(function () {
-                // //要延时执行的代码
-                // var pages = getCurrentPages();//可以log看看是什么(里面什么都有--)
-
-                // // 2. 拿到上一页(数组长度-2就是上一页)
-                // var beforePage = pages[pages.length - 2];
-
-                // // 3. 执行上一页 onLoad 函数(刷新数据)
-                // // 假设请求后端数据并渲染页面的函数是: getNavGird()
-                // beforePage.onLoad()
-
-                // // 4. 跳转页面()
-                wx.navigateBack({
-                  delta: 1,
+      this.uploadPics()
+      setTimeout(() => {
+        team.doc(that.data.teamid).get({
+          success:function(res){
+            now = res["data"]["create_time"]
+            team.doc(that.data.teamid).update({
+              data:{
+                address:that.data.address,
+                max:that.data.member,
+                label_id:that.data.labelList[that.data.index]._id,
+                deadline:that.data.dateLimit ? new Date(that.data.date) : null,
+                information:that.data.content,
+                team_name:that.data.title,
+                status:1,
+                pic_list:that.data.pics
+              },
+              success:function(res){
+                wx.showToast({
+                  title: '提交成功！',
+                  icon:"success"
                 })
-
-                // wx.redirectTo({
-                //   url: '../myTeams/myTeams',
-                // })
-
-              }, 1000) 
-              
-            },
-            fail:function(res){
-              wx.showToast({
-                title: '提交失败！',
-                icon:"error"
-              })
-            }
-          })
-        }
-      })
+                setTimeout(function () {
+                  // //要延时执行的代码
+                  // var pages = getCurrentPages();//可以log看看是什么(里面什么都有--)
+  
+                  // // 2. 拿到上一页(数组长度-2就是上一页)
+                  // var beforePage = pages[pages.length - 2];
+  
+                  // // 3. 执行上一页 onLoad 函数(刷新数据)
+                  // // 假设请求后端数据并渲染页面的函数是: getNavGird()
+                  // beforePage.onLoad()
+  
+                  // // 4. 跳转页面()
+                  wx.navigateBack({
+                    delta: 1,
+                  })
+  
+                  // wx.redirectTo({
+                  //   url: '../myTeams/myTeams',
+                  // })
+  
+                }, 1000) 
+                
+              },
+              fail:function(res){
+                wx.showToast({
+                  title: '提交失败！',
+                  icon:"error"
+                })
+              }
+            })
+          }
+        })
+      }, 1000);
+      
     }
   }
 })
