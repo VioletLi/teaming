@@ -2,7 +2,8 @@
   <icon size="20" class="search_icon" type="search"></icon>
   <input value="{{inpValue}}" placeholder="查找队伍" bindinput="handleInput"> </input>
   <!-- <icon class="cancel" type="cancel" bindtap="cancelinput"></icon> -->
-  <text class="cuIcon-roundclose text-xxl text-gray bg-white"  bindtap="cancelinput"></text>
+  <!-- <text class="text-xxl cuIcon-roundclose bg-white"  bindtap="cancelinput"></text> -->
+  <icon size="20" class="search_icon" type="cancel" bindtap="cancelinput" color="grey"></icon>
   <!-- <button bindtap="handlesearch">搜索</button> -->
   <!-- <view class="action"> -->
   <button class="cu-btn light shadow-blur round" style="background-color:#f0e3ff;color:#d89cf6" bindtap="handlesearch">搜索</button>

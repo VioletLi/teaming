@@ -4,6 +4,18 @@
 <view class="content">
 <block wx:if="{{tabs[0].isActive}}">
     <view class="first_tab">
+      <!-- 轮播图 begin-->
+      
+      <swiper wx:if="{{swiperList[0]!=null}}" class="card-swiper round-dot" indicator-dots="true" circular="true" autoplay="true" interval="4000" duration="500" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#d291bc">
+        <swiper-item wx:for="{{swiperList}}" wx:key class="{{cardCur==index?'cur':''}}">
+          <view class="swiper-item">
+            <image src="{{item}}" mode="aspectFill"></image>
+            <video src="{{item}}" autoplay loop muted show-play-btn="{{false}}" controls="{{false}}" objectFit="cover" wx:if="{{item.type=='video'}}"></video>
+          </view>
+        </swiper-item>
+      </swiper>
+
+      <!-- 轮播图 end -->
       <!-- 标签墙 -->
       <!-- <scroll-view  scroll-x class="tags"><navigator>{{teaminfo.label_id}}</navigator></scroll-view> -->
       <!-- <view class="teamname">{{teaminfo.team_name}}</view> -->
